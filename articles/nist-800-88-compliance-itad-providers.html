@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>NIST 800-88 Compliance: What Every ITAD Provider Should Be Doing | Standard Mobile Company</title>
+<meta name="description" content="A deep dive into NIST 800-88 data sanitization standards—Clear, Purge, and Destroy—and what separates compliant ITAD providers from those cutting corners on media sanitization."/>
+<meta name="keywords" content="NIST 800-88, data sanitization standards, NIST 800-88 guidelines media sanitization, secure data destruction, data wiping vs degaussing vs shredding, media sanitization, ITAD compliance, data purge, cryptographic erase, hard drive destruction"/>
+<link rel="canonical" href="https://standardmobileco.com/articles/nist-800-88-compliance-itad-providers"/>
+<meta property="og:title" content="NIST 800-88 Compliance: What Every ITAD Provider Should Be Doing (and Most Aren't)"/>
+<meta property="og:description" content="The definitive guide to NIST 800-88 media sanitization—Clear, Purge, and Destroy—and why most ITAD providers fall short."/>
+<meta property="og:type" content="article"/>
+<meta property="og:url" content="https://standardmobileco.com/articles/nist-800-88-compliance-itad-providers"/>
+<meta property="og:site_name" content="Standard Mobile Company"/>
+<meta property="article:published_time" content="2026-04-06"/>
+<meta property="article:section" content="ITAD"/>
+<meta property="article:tag" content="NIST 800-88"/>
+<meta property="article:tag" content="data sanitization"/>
+<meta property="article:tag" content="ITAD compliance"/>
+<meta property="article:tag" content="media sanitization"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="NIST 800-88 Compliance: What Every ITAD Provider Should Be Doing (and Most Aren't)"/>
+<meta name="twitter:description" content="Clear, Purge, or Destroy? A deep dive into NIST 800-88 and what compliant data sanitization actually looks like."/>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"NIST 800-88 Compliance: What Every ITAD Provider Should Be Doing (and Most Aren't)","description":"A deep dive into NIST 800-88 data sanitization standards and what separates compliant ITAD providers from those cutting corners.","datePublished":"2026-04-06","dateModified":"2026-04-06","author":{"@type":"Organization","name":"Standard Mobile Company"},"publisher":{"@type":"Organization","name":"Standard Mobile Company","url":"https://standardmobileco.com"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://standardmobileco.com/articles/nist-800-88-compliance-itad-providers"}}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--black:#1d1d1f;--white:#fff;--off:#f5f5f7;--g1:#d2d2d7;--g2:#6e6e73;--blue:#0066cc;--blue2:#2997ff;--orange:#d95c1a;--f:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',Arial,sans-serif}
+html{scroll-behavior:smooth}body{background:var(--white);color:var(--black);font-family:var(--f);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px);border-bottom:1px solid rgba(0,0,0,.09)}.nav-in{max-width:1080px;margin:0 auto;height:100%;padding:0 24px;display:flex;align-items:center;justify-content:space-between}.nav-logo{font-size:.85rem;font-weight:700;color:var(--black);text-decoration:none;letter-spacing:-.02em}.nav-links{list-style:none;display:flex;align-items:center;gap:2px}.nav-links a{font-size:.75rem;font-weight:400;color:var(--g2);text-decoration:none;padding:6px 10px;border-radius:6px;transition:color .15s,background .15s;white-space:nowrap}.nav-links a:hover{color:var(--black);background:rgba(0,0,0,.04)}.nav-links a.cta{background:var(--black);color:#fff!important;padding:6px 14px;border-radius:980px;font-weight:500}
+.ah{padding:120px 24px 48px;max-width:720px;margin:0 auto}.ah .tag{font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-bottom:1rem;display:block}.ah h1{font-size:clamp(2rem,4.5vw,3.2rem);font-weight:800;letter-spacing:-.04em;line-height:1.08;color:var(--black);margin-bottom:1.2rem}.ah .meta{font-size:.8rem;color:var(--g2);display:flex;gap:1.2rem;flex-wrap:wrap;padding-bottom:2rem;border-bottom:1px solid var(--g1)}
+.ab{max-width:720px;margin:0 auto;padding:2.5rem 24px 4rem}.ab p{font-size:1.05rem;line-height:1.82;color:#333;margin-bottom:1.6rem;font-weight:300}.ab h2{font-size:1.5rem;font-weight:800;letter-spacing:-.03em;color:var(--black);margin:2.8rem 0 1rem;line-height:1.15}.ab h3{font-size:1.15rem;font-weight:700;color:var(--black);margin:2rem 0 .8rem;line-height:1.3}.ab blockquote{border-left:3px solid var(--orange);padding:1rem 0 1rem 1.6rem;margin:2rem 0;font-size:1.15rem;font-weight:400;color:var(--black);line-height:1.6;font-style:italic}.ab ul,.ab ol{padding-left:1.4rem;margin-bottom:1.6rem}.ab li{font-size:1.02rem;line-height:1.75;color:#333;font-weight:300;margin-bottom:.5rem}
+.ps{background:var(--off);border-radius:16px;padding:2rem 2.4rem;margin:2.4rem 0;text-align:center}.ps .num{font-size:3rem;font-weight:900;letter-spacing:-.04em;color:var(--black);line-height:1}.ps .num .ac{color:var(--orange)}.ps .lbl{font-size:.7rem;font-weight:600;color:var(--g2);letter-spacing:.1em;text-transform:uppercase;margin-top:.4rem}
+.dt{width:100%;border-collapse:collapse;margin:1.6rem 0;font-size:.92rem}.dt th{text-align:left;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--g2);padding:.75rem 1rem;border-bottom:2px solid var(--black)}.dt td{padding:.75rem 1rem;border-bottom:1px solid var(--g1);color:#333;font-weight:300}
+.ac2{max-width:720px;margin:0 auto 4rem;padding:2.4rem;background:var(--black);border-radius:20px;text-align:center}.ac2 h3{color:#fff;font-size:1.3rem;font-weight:700;margin-bottom:.6rem}.ac2 p{color:rgba(255,255,255,.5);font-size:.9rem;font-weight:300;margin-bottom:1.2rem}.ac2 a{display:inline-block;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;padding:.7rem 1.6rem;border-radius:980px;font-size:.88rem;font-weight:600;text-decoration:none}
+footer{background:#0a0a0a;border-radius:24px 24px 0 0;overflow:hidden}.fts{max-width:1080px;margin:0 auto;padding:32px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}.fts p{font-size:.73rem;color:rgba(255,255,255,.22)}.fts a{font-size:.73rem;color:rgba(255,255,255,.3);text-decoration:none}.fts a:hover{color:rgba(255,255,255,.65)}
+@media(max-width:600px){.nav-links{display:none}.ah h1{font-size:1.8rem}}
+</style>
+</head>
+<body>
+<nav><div class="nav-in"><a class="nav-logo" href="../index.html">Standard Mobile Company</a><ul class="nav-links"><li><a href="../index.html">Home</a></li><li><a href="../market-insights.html">Market Insights</a></li><li><a href="../index.html#contact" class="cta">Contact</a></li></ul></div></nav>
+
+<div class="ah">
+  <span class="tag">ITAD &middot; Compliance</span>
+  <h1>NIST 800-88 Compliance: What Every ITAD Provider Should Be Doing (and Most Aren&rsquo;t)</h1>
+  <div class="meta"><span>Standard Mobile Company Research</span><span>April 6, 2026</span><span>10 min read</span></div>
+</div>
+
+<div class="ab">
+
+<p>When an enterprise hands a pallet of hard drives to an ITAD provider, it is making a trust transfer. The enterprise is trusting that every byte of customer data, financial records, intellectual property, and personally identifiable information on those drives will be rendered completely, verifiably, and permanently unrecoverable.</p>
+
+<p>The standard that governs whether that trust is justified has a name: NIST Special Publication 800-88, Revision 1&mdash;<em>Guidelines for Media Sanitization</em>. Published by the National Institute of Standards and Technology, it is the most widely referenced data sanitization framework in the world. Federal agencies are required to follow it. Most enterprise compliance programs reference it. Nearly every ITAD provider claims to comply with it.</p>
+
+<p>The problem is that claiming compliance and actually achieving it are very different things. And the gap between the two is where data breaches happen.</p>
+
+<div class="ps"><div class="num">$9.48<span class="ac">M</span></div><div class="lbl">Average cost of a data breach in the United States (IBM, 2025)</div></div>
+
+<h2>What NIST 800-88 Actually Says</h2>
+
+<p>NIST 800-88 Rev. 1, originally published in 2014 and still the current version, establishes a decision framework for sanitizing data on storage media. It does not prescribe a single method. Instead, it defines three categories of sanitization, each appropriate for different security contexts and media types.</p>
+
+<h3>Clear</h3>
+
+<p>Clear applies logical techniques to sanitize data in all user-addressable storage locations. In practice, this means overwriting every addressable location on the media with a fixed pattern (zeros, ones, or a pseudorandom sequence) using the device&rsquo;s standard interface.</p>
+
+<p>What Clear does: Prevents data recovery using standard data recovery tools and techniques. A commercially available data recovery service will not be able to retrieve data from a properly Cleared device.</p>
+
+<p>What Clear does not do: Address data in hidden or inaccessible areas of the media&mdash;host-protected areas (HPA), device configuration overlays (DCO), remapped sectors, or wear-leveled blocks on SSDs. Data may persist in these areas even after a full Clear operation.</p>
+
+<p>When to use Clear: Internal redeployment of hardware within the same security environment. Low-sensitivity data. Situations where the media will not leave organizational control.</p>
+
+<table class="dt">
+  <tr><th>Media Type</th><th>Clear Method</th><th>Limitations</th></tr>
+  <tr><td>HDD (magnetic)</td><td>Single-pass overwrite of all addressable sectors</td><td>Does not reach remapped sectors or HPA/DCO areas</td></tr>
+  <tr><td>SSD (NAND flash)</td><td>Single-pass overwrite via standard interface</td><td>Wear leveling means some blocks are not overwritten; data may persist in over-provisioned space</td></tr>
+  <tr><td>NVMe</td><td>Overwrite via NVMe command set</td><td>Same wear-leveling limitations as SATA/SAS SSD</td></tr>
+  <tr><td>Magnetic tape</td><td>Overwrite all data on the tape</td><td>Must overwrite the entire tape, not just individual files</td></tr>
+</table>
+
+<blockquote>Clear is the minimum. For any hardware leaving organizational control&mdash;whether sold, donated, or recycled&mdash;Clear alone is insufficient. This is the first place most ITAD providers cut corners.</blockquote>
+
+<h3>Purge</h3>
+
+<p>Purge applies physical or logical techniques that render data recovery infeasible using state-of-the-art laboratory techniques. The key distinction from Clear is the threat model: Clear protects against commercial recovery tools; Purge protects against a well-funded adversary with access to a forensic laboratory.</p>
+
+<p>For magnetic media (HDDs), Purge can be achieved through:</p>
+
+<ul>
+  <li><strong>Degaussing.</strong> Exposing the media to a magnetic field strong enough to neutralize the magnetic domains on the platters. This renders the drive permanently inoperable&mdash;the servo tracks that allow the read/write heads to navigate the platters are also destroyed. A degaussed HDD cannot be reused.</li>
+  <li><strong>Secure Erase command.</strong> A firmware-level command built into the drive&rsquo;s controller that overwrites all sectors, including remapped and reserved areas. When properly implemented by the drive manufacturer, this addresses the hidden-area limitation of Clear. However, implementation quality varies by manufacturer and model.</li>
+</ul>
+
+<p>For flash-based media (SSDs, NVMe), Purge is typically achieved through:</p>
+
+<ul>
+  <li><strong>Cryptographic Erase.</strong> If the drive uses self-encrypting drive (SED) technology, the encryption key is destroyed, rendering all data on the drive cryptographically unrecoverable. The drive can be reused with a new encryption key. This is the preferred Purge method for SSDs because it is fast (seconds, not hours), reliable (no wear-leveling gaps), and non-destructive to the hardware.</li>
+  <li><strong>Block Erase / Sanitize command.</strong> A firmware command that erases all NAND flash blocks, including over-provisioned and wear-leveled areas. Supported by most enterprise SSDs manufactured after 2015.</li>
+</ul>
+
+<p>When to use Purge: Any time hardware is leaving organizational control. This is the standard for ITAD remarketing, donation, lease returns, and any other scenario where the device will be operated by a different entity.</p>
+
+<div class="ps"><div class="num">3<span class="ac"> levels</span></div><div class="lbl">Clear &rarr; Purge &rarr; Destroy (escalating assurance, escalating cost)</div></div>
+
+<h3>Destroy</h3>
+
+<p>Destroy renders the media physically unusable and data recovery impossible by any known means. The device is not reusable after Destroy.</p>
+
+<p>Methods include:</p>
+
+<ul>
+  <li><strong>Shredding.</strong> Industrial shredders reduce drives to fragments. The NIST-recommended particle size for magnetic media is &le;2mm. For SSDs, smaller particle sizes may be required because individual NAND chips are small enough to survive coarse shredding.</li>
+  <li><strong>Disintegration.</strong> A more thorough variant of shredding that produces finer particles. Used for classified and top-secret media.</li>
+  <li><strong>Incineration.</strong> Burning the media at temperatures sufficient to destroy the data-bearing substrate. Rarely used in commercial ITAD due to environmental regulations.</li>
+  <li><strong>Melting.</strong> Smelting the media to recover base metals while destroying the data substrate. Common in downstream recycling of already-sanitized drives.</li>
+</ul>
+
+<p>When to use Destroy: Classified or top-secret data under government security frameworks. Regulatory environments that mandate physical destruction (some healthcare, some financial). Media that cannot be reliably Purged (damaged drives, drives with firmware issues that prevent Secure Erase or Cryptographic Erase).</p>
+
+<h2>Where ITAD Providers Cut Corners</h2>
+
+<p>The framework is clear. The implementation, in practice, is not. Here are the most common ways ITAD providers claim NIST 800-88 compliance without actually achieving it:</p>
+
+<h3>1. Treating Clear as Sufficient for External Disposition</h3>
+
+<p>The most widespread gap. A provider runs a single-pass overwrite on a batch of drives, issues a &ldquo;certificate of data destruction,&rdquo; and ships the drives to a buyer. This is Clear, not Purge. For HDDs, data may persist in remapped sectors. For SSDs, data almost certainly persists in wear-leveled blocks and over-provisioned space.</p>
+
+<p>An enterprise receiving that certificate may believe its data has been sanitized to a Purge standard. It has not. If one of those drives surfaces in a forensic investigation, the certificate will not hold up.</p>
+
+<h3>2. Not Verifying Sanitization</h3>
+
+<p>NIST 800-88 explicitly requires verification after sanitization. For Clear, this means sampling drives and confirming that data is not recoverable through standard tools. For Purge, this means confirming that the sanitization command completed successfully and that the drive reports no data-bearing sectors.</p>
+
+<p>Many providers run the sanitization tool and log the result without performing independent verification. Some do not even check whether the sanitization command completed successfully&mdash;a drive that threw an error during Secure Erase may be logged as &ldquo;sanitized&rdquo; and shipped to a buyer with data intact.</p>
+
+<h3>3. Using Inadequate Tools for SSDs</h3>
+
+<p>The SSD problem is the most technically challenging aspect of NIST 800-88 compliance. Traditional overwrite methods (which work perfectly for HDDs) are unreliable for NAND flash because the flash translation layer (FTL) manages block allocation in ways that are opaque to the host system.</p>
+
+<p>A provider using an HDD-oriented overwrite tool on SSDs is not achieving Purge and may not even be achieving Clear. Proper SSD sanitization requires either Cryptographic Erase (for SEDs) or the drive&rsquo;s native Sanitize/Block Erase command&mdash;not a host-level overwrite.</p>
+
+<h3>4. Inconsistent Handling of Damaged or Failed Drives</h3>
+
+<p>Every batch of drives includes some that are physically damaged, have firmware corruption, or otherwise cannot be sanitized through software methods. NIST 800-88 is clear: if a drive cannot be Purged, it must be Destroyed.</p>
+
+<p>Some providers set damaged drives aside and eventually recycle them without proper destruction. Others attempt software sanitization on drives that are partially non-functional&mdash;resulting in incomplete wipes where only the accessible portion of the drive is sanitized and the rest retains data.</p>
+
+<h3>5. No Per-Device Documentation</h3>
+
+<p>NIST 800-88 requires documentation of the sanitization decision and verification for each piece of media. This means per-serial-number records that include: the sanitization category applied (Clear, Purge, or Destroy), the specific method and tool used, the operator, the date and time, the verification method, and the verification result.</p>
+
+<p>Batch-level certificates that say &ldquo;500 drives sanitized&rdquo; without per-serial-number detail do not meet the standard. Yet this is common practice in the industry.</p>
+
+<table class="dt">
+  <tr><th>Compliance Gap</th><th>Risk Level</th><th>How to Verify</th></tr>
+  <tr><td>Clear used instead of Purge for external disposition</td><td>High</td><td>Request specific sanitization method per media type (overwrite &ne; Purge for SSDs)</td></tr>
+  <tr><td>No post-sanitization verification</td><td>High</td><td>Ask for verification logs, not just sanitization logs</td></tr>
+  <tr><td>HDD tools used on SSDs</td><td>Critical</td><td>Ask which tools are used for NAND flash; must support ATA Secure Erase or NVMe Sanitize</td></tr>
+  <tr><td>Damaged drives not destroyed</td><td>Critical</td><td>Ask about the process for drives that fail sanitization</td></tr>
+  <tr><td>Batch-level (not per-device) documentation</td><td>Medium</td><td>Request a sample certificate; verify per-serial-number detail</td></tr>
+</table>
+
+<h2>The SSD Challenge in Detail</h2>
+
+<p>Solid-state drives deserve their own section because they represent the single largest compliance risk in modern data center decommissioning. The shift from HDD to SSD in enterprise environments over the past decade has fundamentally changed the data sanitization landscape, and many ITAD providers have not caught up.</p>
+
+<h3>Why Overwrite Fails on SSDs</h3>
+
+<p>When you write data to an SSD, the flash translation layer (FTL) decides which physical NAND blocks to use. When you &ldquo;overwrite&rdquo; a file, the FTL typically writes the new data to a different physical block and marks the original block as stale. The original data remains on the NAND until the block is garbage-collected&mdash;which may never happen if the drive has sufficient free space.</p>
+
+<p>Additionally, SSDs maintain over-provisioned space (typically 7&ndash;28% of total NAND capacity) that is invisible to the host system. Data can persist in over-provisioned space indefinitely, completely untouched by any host-level overwrite operation.</p>
+
+<h3>The Right Way to Sanitize SSDs</h3>
+
+<ol>
+  <li><strong>Cryptographic Erase (best option).</strong> If the drive supports self-encrypting drive (SED) functionality via TCG Opal or IEEE 1667, destroy the encryption key. All data on the drive becomes cryptographic noise. Takes seconds. Leaves the drive fully functional for resale.</li>
+  <li><strong>ATA Secure Erase Enhanced / NVMe Format with Crypto Erase.</strong> Firmware-level commands that erase all NAND blocks including over-provisioned space. Takes minutes to hours depending on drive capacity. Leaves the drive functional.</li>
+  <li><strong>Physical Destruction.</strong> If neither option is available (older drives, damaged firmware), the drive must be physically destroyed. Shred to &le;2mm particle size for NAND flash.</li>
+</ol>
+
+<h2>Building an Audit-Ready Sanitization Program</h2>
+
+<p>Whether you are an ITAD provider looking to close compliance gaps or an enterprise evaluating your current provider, here is what a NIST 800-88&ndash;compliant sanitization program looks like in practice:</p>
+
+<h3>Media-Specific Workflows</h3>
+
+<p>Different media types require different sanitization methods. A compliant program has documented workflows for each:</p>
+
+<ul>
+  <li><strong>HDDs:</strong> Purge via degauss or ATA Secure Erase. Verify via sampling read of sanitized drives. Destroy if Secure Erase fails or drive is physically damaged.</li>
+  <li><strong>SATA/SAS SSDs:</strong> Purge via Cryptographic Erase (SED) or ATA Secure Erase Enhanced. Verify via sampling. Destroy if firmware does not support Purge-level commands.</li>
+  <li><strong>NVMe SSDs:</strong> Purge via NVMe Format with Crypto Erase or NVMe Sanitize command. Verify completion via controller status. Destroy if command fails.</li>
+  <li><strong>Magnetic tape:</strong> Degauss or overwrite entire tape. Verify via read-after-write. Destroy if tape is damaged.</li>
+  <li><strong>Mobile devices:</strong> Factory reset with verified encryption (iOS: device is encrypted by default; Android: verify encryption is enabled before reset). Physical destruction if device is non-functional.</li>
+</ul>
+
+<h3>Tool Qualification</h3>
+
+<p>The sanitization tool itself must be validated. Not all tools that claim NIST 800-88 support actually implement it correctly for all media types. Key questions:</p>
+
+<ul>
+  <li>Does the tool support Purge-level commands (not just overwrite) for SSDs?</li>
+  <li>Does it verify sanitization completion, not just initiation?</li>
+  <li>Does it detect and flag drives where sanitization fails or is incomplete?</li>
+  <li>Does it generate per-device logs with serial number, method, timestamp, and verification result?</li>
+  <li>Is the tool itself regularly updated to support new drive models and firmware versions?</li>
+</ul>
+
+<p>Leading tools in this space include Blancco Drive Eraser, White Canyon WipeDrive, and Certus Erasure&mdash;but even these require proper configuration to achieve Purge-level compliance on all media types.</p>
+
+<h3>Personnel Training</h3>
+
+<p>The best tools are useless if the operators do not understand the difference between Clear and Purge, do not know how to handle failed drives, or do not verify sanitization results. Training should cover:</p>
+
+<ul>
+  <li>NIST 800-88 framework (Clear/Purge/Destroy) and when each applies</li>
+  <li>Media-type-specific sanitization procedures</li>
+  <li>Verification and quality assurance protocols</li>
+  <li>Exception handling for damaged, encrypted, or non-standard media</li>
+  <li>Chain of custody procedures</li>
+  <li>Documentation requirements</li>
+</ul>
+
+<h2>Questions to Ask Your ITAD Provider</h2>
+
+<p>If you are an enterprise evaluating an ITAD provider&rsquo;s NIST 800-88 compliance, these are the questions that separate the compliant from the merely claiming:</p>
+
+<ol>
+  <li><strong>&ldquo;What sanitization method do you use for SSDs, and is it different from your HDD process?&rdquo;</strong> If the answer is &ldquo;we overwrite everything the same way,&rdquo; that is a red flag. SSDs require different methods.</li>
+  <li><strong>&ldquo;Can you show me a sample certificate of data destruction with per-serial-number detail?&rdquo;</strong> If the certificate is batch-level only, they are not meeting the documentation standard.</li>
+  <li><strong>&ldquo;What happens to a drive that fails sanitization?&rdquo;</strong> The only acceptable answer is physical destruction with documentation. Not &ldquo;we try again&rdquo; or &ldquo;we set it aside.&rdquo;</li>
+  <li><strong>&ldquo;Do you verify sanitization after it completes, and how?&rdquo;</strong> Logging that a command was sent is not verification. Reading the drive after sanitization and confirming no recoverable data is verification.</li>
+  <li><strong>&ldquo;Which sanitization tools do you use, and are they qualified for all media types in our inventory?&rdquo;</strong> Name the tools. Name the media types they are qualified for. Vague answers mean gaps.</li>
+</ol>
+
+<blockquote>NIST 800-88 is not a checkbox. It is a decision framework. Every drive, every media type, every security classification requires a deliberate choice between Clear, Purge, and Destroy&mdash;and documentation that proves the right choice was made and correctly executed.</blockquote>
+
+<h2>The Cost of Getting It Wrong</h2>
+
+<p>Morgan Stanley paid $35 million to the SEC in 2023 for improper data center decommissioning. The root cause was not malice&mdash;it was a subcontractor who resold drives without adequate sanitization. The drives contained unencrypted customer data. The subcontractor&rsquo;s &ldquo;sanitization&rdquo; process did not meet any recognized standard.</p>
+
+<p>That fine was for a single incident involving a single subcontractor. The reputational damage, customer notification costs, and legal expenses were additional. Total exposure from inadequate data sanitization can easily exceed $50 million for a large enterprise.</p>
+
+<p>Proper NIST 800-88 compliance costs a few dollars per drive. Improper sanitization costs millions per incident. The math is not complicated. The execution, however, requires discipline, the right tools, trained personnel, and an ITAD partner who understands that compliance is not a marketing claim&mdash;it is an operational commitment.</p>
+
+</div>
+
+<div class="ac2">
+  <h3>Need compliant data sanitization or certified ITAD services?</h3>
+  <p>We follow NIST 800-88 Purge standards with per-device documentation for every engagement.</p>
+  <a href="../index.html#contact">Get in Touch &rarr;</a>
+</div>
+
+<footer><div class="fts"><p>&copy; 2026 Standard Mobile Company. All Rights Reserved.</p><a href="../index.html">Home</a></div></footer>
+</body>
+</html>
