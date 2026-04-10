@@ -42,9 +42,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:rgba(
 .btn-outline{border:1.5px solid var(--g1);color:var(--black)}.btn-outline:hover{border-color:#999;transform:translateY(-1px)}
 @keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 
-/* HERO VIDEO */
-.hero-video{margin-top:3rem;width:100%;max-width:820px;animation:up .65s .28s ease both;position:relative;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.12)}
-.hero-video video{display:block;width:100%;height:auto;border-radius:16px}
+/* FACTORY VIDEO */
+.factory-vid{background:var(--white);padding:72px 24px;text-align:center}
+.factory-vid-inner{max-width:960px;margin:0 auto}
+.factory-vid .eye{font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--g2);display:block;margin-bottom:.6rem}
+.factory-vid h2{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;letter-spacing:-.03em;color:var(--black);line-height:1.1;margin-bottom:.5rem}
+.factory-vid p{font-size:.92rem;font-weight:300;color:var(--g2);line-height:1.68;max-width:520px;margin:0 auto 2rem}
+.factory-vid-player{position:relative;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.1)}
+.factory-vid-player video{display:block;width:100%;height:auto}
 
 /* MARQUEE */
 .mq{background:var(--black);overflow:hidden;padding:14px 0}
@@ -269,12 +274,6 @@ footer{background:#0a0a0a;margin-top:10px;border-radius:24px 24px 0 0;overflow:h
       <a href="#services" class="btn btn-dark">How We Work</a>
       <a href="#contact" class="btn btn-outline">Work With Us</a>
     </div>
-    <div class="hero-video">
-      <video controls playsinline preload="metadata" poster="">
-        <source src="https://raw.githubusercontent.com/tchogorian/standardmobileco/main/hero-video.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-    </div>
   </div>
 </div>
 
@@ -292,6 +291,20 @@ footer{background:#0a0a0a;margin-top:10px;border-radius:24px 24px 0 0;overflow:h
     <span class="mq-div">|</span>
     <span class="mq-seg">South America &middot; Middle East &middot; Amazon &middot; eBay &middot; B2B Wholesale &middot; Liquidation</span>
     <span class="mq-div">|</span>
+  </div>
+</div>
+
+<div class="factory-vid rise">
+  <div class="factory-vid-inner">
+    <span class="eye">Inside Our Operation</span>
+    <h2>A look inside our factory.</h2>
+    <p>Where devices are inspected, repaired, and certified &mdash; every unit, every time.</p>
+    <div class="factory-vid-player">
+      <video controls playsinline preload="metadata">
+        <source src="https://raw.githubusercontent.com/tchogorian/standardmobileco/main/hero-video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
   </div>
 </div>
 
