@@ -42,6 +42,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:rgba(
 .btn-outline{border:1.5px solid var(--g1);color:var(--black)}.btn-outline:hover{border-color:#999;transform:translateY(-1px)}
 @keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 
+/* HERO VIDEO */
+.hero-video{margin-top:3rem;width:100%;max-width:820px;animation:up .65s .28s ease both;position:relative;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.12)}
+.hero-video video{display:block;width:100%;height:auto;border-radius:16px}
+
 /* MARQUEE */
 .mq{background:var(--black);overflow:hidden;padding:14px 0}
 .mq-inner{display:flex;animation:mscroll 38s linear infinite;white-space:nowrap;width:max-content}
@@ -264,6 +268,12 @@ footer{background:#0a0a0a;margin-top:10px;border-radius:24px 24px 0 0;overflow:h
     <div class="hero-btns">
       <a href="#services" class="btn btn-dark">How We Work</a>
       <a href="#contact" class="btn btn-outline">Work With Us</a>
+    </div>
+    <div class="hero-video">
+      <video controls playsinline preload="metadata" poster="">
+        <source src="hero-video.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
     </div>
   </div>
 </div>
