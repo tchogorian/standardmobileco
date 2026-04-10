@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>GPU Liquidation: What Happens When Hyperscalers Dump Their NVIDIA Clusters | Standard Mobile Company</title>
+<meta name="description" content="The Blackwell transition is flooding the secondary market with NVIDIA H100 and A100 GPUs. Pricing data, depreciation models, and who is buying liquidated AI accelerators in 2026."/>
+<meta name="keywords" content="GPU liquidation, used NVIDIA H100, GPU secondary market, sell used A100 GPU, NVIDIA H100 resale price 2026, GPU cluster decommission, AI hardware liquidation, used GPU pricing, Blackwell vs Hopper, GPU depreciation"/>
+<link rel="canonical" href="https://standardmobileco.com/articles/gpu-liquidation-hyperscalers-nvidia-clusters"/>
+<meta property="og:title" content="GPU Liquidation: What Happens When Hyperscalers Dump Their NVIDIA Clusters"/>
+<meta property="og:description" content="Blackwell is shipping. Hopper is flooding the secondary market. Here is what GPU liquidation looks like in 2026."/>
+<meta property="og:type" content="article"/>
+<meta property="og:url" content="https://standardmobileco.com/articles/gpu-liquidation-hyperscalers-nvidia-clusters"/>
+<meta property="og:site_name" content="Standard Mobile Company"/>
+<meta property="article:published_time" content="2026-04-10"/>
+<meta property="article:section" content="Enterprise Hardware"/>
+<meta property="article:tag" content="GPU liquidation"/>
+<meta property="article:tag" content="NVIDIA H100"/>
+<meta property="article:tag" content="AI hardware"/>
+<meta property="article:tag" content="GPU secondary market"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="GPU Liquidation: What Happens When Hyperscalers Dump Their NVIDIA Clusters"/>
+<meta name="twitter:description" content="NVIDIA H100 pricing, depreciation curves, and who is buying liquidated AI accelerators in 2026."/>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Article","headline":"GPU Liquidation: What Happens When Hyperscalers Dump Their NVIDIA Clusters","description":"The Blackwell transition is flooding the secondary market with NVIDIA H100 and A100 GPUs. Pricing data and depreciation models.","datePublished":"2026-04-10","dateModified":"2026-04-10","author":{"@type":"Organization","name":"Standard Mobile Company"},"publisher":{"@type":"Organization","name":"Standard Mobile Company","url":"https://standardmobileco.com"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://standardmobileco.com/articles/gpu-liquidation-hyperscalers-nvidia-clusters"}}
+</script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--black:#1d1d1f;--white:#fff;--off:#f5f5f7;--g1:#d2d2d7;--g2:#6e6e73;--blue:#0066cc;--blue2:#2997ff;--orange:#d95c1a;--f:-apple-system,BlinkMacSystemFont,'SF Pro Display','Helvetica Neue',Arial,sans-serif}
+html{scroll-behavior:smooth}body{background:var(--white);color:var(--black);font-family:var(--f);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px);border-bottom:1px solid rgba(0,0,0,.09)}.nav-in{max-width:1080px;margin:0 auto;height:100%;padding:0 24px;display:flex;align-items:center;justify-content:space-between}.nav-logo{font-size:.85rem;font-weight:700;color:var(--black);text-decoration:none;letter-spacing:-.02em}.nav-links{list-style:none;display:flex;align-items:center;gap:2px}.nav-links a{font-size:.75rem;font-weight:400;color:var(--g2);text-decoration:none;padding:6px 10px;border-radius:6px;transition:color .15s,background .15s;white-space:nowrap}.nav-links a:hover{color:var(--black);background:rgba(0,0,0,.04)}.nav-links a.cta{background:var(--black);color:#fff!important;padding:6px 14px;border-radius:980px;font-weight:500}
+.ah{padding:120px 24px 48px;max-width:720px;margin:0 auto}.ah .tag{font-size:.65rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-bottom:1rem;display:block}.ah h1{font-size:clamp(2rem,4.5vw,3.2rem);font-weight:800;letter-spacing:-.04em;line-height:1.08;color:var(--black);margin-bottom:1.2rem}.ah .meta{font-size:.8rem;color:var(--g2);display:flex;gap:1.2rem;flex-wrap:wrap;padding-bottom:2rem;border-bottom:1px solid var(--g1)}
+.ab{max-width:720px;margin:0 auto;padding:2.5rem 24px 4rem}.ab p{font-size:1.05rem;line-height:1.82;color:#333;margin-bottom:1.6rem;font-weight:300}.ab h2{font-size:1.5rem;font-weight:800;letter-spacing:-.03em;color:var(--black);margin:2.8rem 0 1rem;line-height:1.15}.ab h3{font-size:1.15rem;font-weight:700;color:var(--black);margin:2rem 0 .8rem;line-height:1.3}.ab blockquote{border-left:3px solid var(--orange);padding:1rem 0 1rem 1.6rem;margin:2rem 0;font-size:1.15rem;font-weight:400;color:var(--black);line-height:1.6;font-style:italic}.ab ul,.ab ol{padding-left:1.4rem;margin-bottom:1.6rem}.ab li{font-size:1.02rem;line-height:1.75;color:#333;font-weight:300;margin-bottom:.5rem}
+.ps{background:var(--off);border-radius:16px;padding:2rem 2.4rem;margin:2.4rem 0;text-align:center}.ps .num{font-size:3rem;font-weight:900;letter-spacing:-.04em;color:var(--black);line-height:1}.ps .num .ac{color:var(--orange)}.ps .lbl{font-size:.7rem;font-weight:600;color:var(--g2);letter-spacing:.1em;text-transform:uppercase;margin-top:.4rem}
+.dt{width:100%;border-collapse:collapse;margin:1.6rem 0;font-size:.92rem}.dt th{text-align:left;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--g2);padding:.75rem 1rem;border-bottom:2px solid var(--black)}.dt td{padding:.75rem 1rem;border-bottom:1px solid var(--g1);color:#333;font-weight:300}
+.ac2{max-width:720px;margin:0 auto 4rem;padding:2.4rem;background:var(--black);border-radius:20px;text-align:center}.ac2 h3{color:#fff;font-size:1.3rem;font-weight:700;margin-bottom:.6rem}.ac2 p{color:rgba(255,255,255,.5);font-size:.9rem;font-weight:300;margin-bottom:1.2rem}.ac2 a{display:inline-block;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;padding:.7rem 1.6rem;border-radius:980px;font-size:.88rem;font-weight:600;text-decoration:none}
+footer{background:#0a0a0a;border-radius:24px 24px 0 0;overflow:hidden}.fts{max-width:1080px;margin:0 auto;padding:32px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}.fts p{font-size:.73rem;color:rgba(255,255,255,.22)}.fts a{font-size:.73rem;color:rgba(255,255,255,.3);text-decoration:none}.fts a:hover{color:rgba(255,255,255,.65)}
+@media(max-width:600px){.nav-links{display:none}.ah h1{font-size:1.8rem}}
+</style>
+</head>
+<body>
+<nav><div class="nav-in"><a class="nav-logo" href="../index.html">Standard Mobile Company</a><ul class="nav-links"><li><a href="../index.html">Home</a></li><li><a href="../market-insights.html">Market Insights</a></li><li><a href="../index.html#contact" class="cta">Contact</a></li></ul></div></nav>
+
+<div class="ah">
+  <span class="tag">Enterprise Hardware &middot; GPU Market</span>
+  <h1>GPU Liquidation: What Happens When Hyperscalers Dump Their NVIDIA Clusters</h1>
+  <div class="meta"><span>Standard Mobile Company Research</span><span>April 10, 2026</span><span>11 min read</span></div>
+</div>
+
+<div class="ab">
+
+<p>Somewhere in northern Virginia, a hyperscaler is pulling NVIDIA H100 GPUs out of racks that were installed fourteen months ago. The systems are fully functional. Nothing is broken. But Blackwell is shipping, and the economics of AI training are ruthless: the new architecture delivers 2&ndash;2.5x the training throughput per dollar, and every week a facility runs Hopper instead of Blackwell is a week of competitive disadvantage.</p>
+
+<p>This is GPU liquidation at hyperscale, and it is reshaping the secondary market for AI accelerators in 2026.</p>
+
+<div class="ps"><div class="num">$18<span class="ac">K</span></div><div class="lbl">Average secondary-market price for NVIDIA H100 SXM5 80GB (Q2 2026)</div></div>
+
+<h2>The Scale of the Dump</h2>
+
+<p>The numbers are staggering. NVIDIA shipped an estimated 3.5 million H100 and A100 data center GPUs between 2022 and 2025. As Blackwell-generation hardware (B100, B200, GB200) enters production deployment throughout 2026, a significant percentage of those installed Hopper and Ampere GPUs will be displaced.</p>
+
+<p>Industry estimates suggest that 20&ndash;30% of the installed H100 base&mdash;roughly 350,000 to 500,000 GPUs&mdash;will hit the secondary market between Q2 2026 and Q4 2027. For A100s, the displacement is already well underway: an estimated 40% of the original installed base has already been decommissioned or is in the process of being removed.</p>
+
+<p>These are not end-of-life components being scrapped. These are functional, high-performance accelerators that cost $25,000&ndash;$40,000 each less than two years ago. The secondary market has never absorbed this volume of high-value compute hardware in this short a timeframe.</p>
+
+<h2>Current Pricing: The Depreciation Curve</h2>
+
+<p>GPU depreciation in the AI era does not follow traditional enterprise hardware curves. Traditional servers lose 15&ndash;20% of their value per year. AI accelerators are losing 30&ndash;45% per year because the performance improvement per generation is dramatically larger than in any other hardware category.</p>
+
+<table class="dt">
+  <tr><th>GPU</th><th>Peak New Price</th><th>Q2 2025 Secondary</th><th>Q2 2026 Secondary</th><th>YoY Decline</th></tr>
+  <tr><td>NVIDIA H100 SXM5 (80GB)</td><td>$30,000&ndash;$40,000</td><td>$24,000&ndash;$28,000</td><td>$15,000&ndash;$21,000</td><td>&ndash;32%</td></tr>
+  <tr><td>NVIDIA H100 PCIe (80GB)</td><td>$25,000&ndash;$30,000</td><td>$18,000&ndash;$22,000</td><td>$11,000&ndash;$16,000</td><td>&ndash;34%</td></tr>
+  <tr><td>NVIDIA A100 SXM4 (80GB)</td><td>$15,000&ndash;$20,000</td><td>$8,000&ndash;$11,000</td><td>$4,500&ndash;$7,500</td><td>&ndash;38%</td></tr>
+  <tr><td>NVIDIA A100 PCIe (40GB)</td><td>$10,000&ndash;$12,000</td><td>$4,500&ndash;$6,000</td><td>$2,200&ndash;$3,800</td><td>&ndash;42%</td></tr>
+  <tr><td>NVIDIA L40S</td><td>$8,000&ndash;$10,000</td><td>$6,500&ndash;$8,000</td><td>$4,500&ndash;$6,500</td><td>&ndash;25%</td></tr>
+  <tr><td>NVIDIA A10</td><td>$3,500&ndash;$4,500</td><td>$2,000&ndash;$2,800</td><td>$1,200&ndash;$1,800</td><td>&ndash;38%</td></tr>
+  <tr><td>AMD MI250X</td><td>$12,000&ndash;$15,000</td><td>$4,500&ndash;$6,500</td><td>$2,000&ndash;$3,500</td><td>&ndash;50%</td></tr>
+</table>
+
+<p>The pattern is clear: every GPU category is declining, but the rate varies by position in the market. The L40S, which targets inference rather than training, is holding value better than training-focused accelerators because its replacement cycle is less urgent. AMD MI250X is depreciating fastest because its software ecosystem is thinner and fewer buyers are equipped to deploy ROCm-based infrastructure.</p>
+
+<blockquote>An H100 SXM5 that cost $35,000 in early 2024 is worth $18,000 today. By Q4 2026, we project $12,000&ndash;$15,000. Every quarter of delay in liquidation costs approximately $1,500&ndash;$2,000 per GPU in lost recovery value.</blockquote>
+
+<h2>Who Is Selling</h2>
+
+<p>GPU liquidation is not coming from one type of seller. The supply side has three distinct segments, each with different motivations and pricing behavior:</p>
+
+<h3>Tier 1: Hyperscalers and Cloud Providers</h3>
+
+<p>Amazon, Microsoft, Google, Oracle, and the other major cloud providers represent the largest volume of GPU liquidation. Their refresh cycles are driven by competitive pressure: if Azure offers Blackwell instances and AWS does not, enterprise AI customers will migrate. This forces simultaneous upgrade cycles across the industry, creating concentrated supply surges.</p>
+
+<p>Hyperscaler liquidation hardware is typically well-maintained, consistently configured, and available in large lots (hundreds or thousands of units). However, systems may have custom firmware, non-standard cooling configurations, or rack-level modifications that complicate redeployment. Pricing is aggressive because hyperscalers are optimizing for speed of disposition, not maximum recovery.</p>
+
+<h3>Tier 2: AI Startups and Research Labs</h3>
+
+<p>The AI startup ecosystem has consumed an enormous volume of GPUs over the past three years. Many of these companies leased GPU capacity, but those that purchased hardware outright are now facing a decision: continue running Hopper infrastructure at a competitive disadvantage, or liquidate and lease Blackwell capacity from cloud providers.</p>
+
+<p>Startup liquidation tends to be smaller lots (8&ndash;64 GPUs), often in DGX or HGX form factors. Hardware condition varies. Some startups ran equipment at sustained high utilization for extended periods. Others purchased capacity that was never fully deployed. Documentation is inconsistent.</p>
+
+<h3>Tier 3: Enterprise Early Adopters</h3>
+
+<p>Enterprises that built on-premises AI infrastructure in 2023&ndash;2024 are beginning to evaluate whether to upgrade or exit. Many are concluding that on-premises AI infrastructure is too expensive to maintain and are migrating workloads to cloud GPU instances. Their hardware is often lightly used (AI projects that did not reach production scale), well-documented, and in standard data center configurations.</p>
+
+<h2>Who Is Buying</h2>
+
+<p>The demand side of the GPU secondary market is robust and growing. Despite rapid depreciation, there is no shortage of buyers at the right price. The market clears because the use cases for previous-generation AI accelerators remain large and diverse:</p>
+
+<h3>Mid-Tier Cloud Providers</h3>
+
+<p>Second-tier cloud providers (CoreWeave, Lambda, Paperspace, and regional providers) are the largest single buyer category. They can offer H100 instances at significantly lower prices than hyperscalers by acquiring GPUs on the secondary market instead of buying new. A cloud provider that acquires H100s at $18,000 instead of ordering B200s at $35,000+ can offer competitive pricing with lower capital expenditure.</p>
+
+<h3>Inference Deployments</h3>
+
+<p>Training drives the upgrade cycle, but inference does not require the latest silicon. An H100 running inference workloads in 2026 delivers excellent performance at a fraction of the cost of Blackwell. Organizations deploying AI models in production&mdash;recommendation engines, content moderation, language models, image generation&mdash;are actively buying used H100s and A100s for inference clusters.</p>
+
+<h3>Academic and Research Institutions</h3>
+
+<p>Universities, national labs, and research institutions have always been price-sensitive GPU buyers. Secondary-market H100s at $15,000&ndash;$18,000 make large-scale AI research accessible to institutions that could never afford $35,000&ndash;$50,000 per GPU at new pricing. Expect significant academic buying throughout 2026&ndash;2027.</p>
+
+<h3>International Buyers</h3>
+
+<p>Export restrictions on cutting-edge NVIDIA GPUs (B100, B200) to certain countries have created strong demand for previous-generation hardware that is not subject to the same controls. H100 and A100 GPUs are in high demand from buyers in the Middle East, Southeast Asia, and parts of South America for both commercial and research applications.</p>
+
+<h3>AI Infrastructure Providers in Emerging Markets</h3>
+
+<p>Companies building AI inference and training capacity in markets where capital costs must be minimized are natural buyers of liquidated GPUs. A startup building AI services in Brazil, India, or Nigeria can acquire a competitive GPU cluster at 50&ndash;60% of the cost of new hardware, making business models viable that would not pencil out at new pricing.</p>
+
+<div class="ps"><div class="num">350&ndash;500<span class="ac">K</span></div><div class="lbl">Estimated H100 GPUs expected to hit the secondary market by Q4 2027</div></div>
+
+<h2>Liquidation Mechanics: How GPUs Actually Change Hands</h2>
+
+<p>GPU liquidation at scale does not work like selling used laptops on eBay. The transaction mechanics are specialized and the stakes are high:</p>
+
+<h3>Valuation and Market Timing</h3>
+
+<p>GPU prices can move 5&ndash;10% in a single month based on new product announcements, supply chain news, or shifts in AI demand. Sellers who hold inventory hoping for price recovery almost always lose. The market is structurally declining, and every NVIDIA earnings call or product launch creates a new downward step. The optimal liquidation strategy is to price slightly below current market, move inventory quickly, and accept that the last 5% of theoretical value is not worth the depreciation risk of waiting.</p>
+
+<h3>Testing and Certification</h3>
+
+<p>Unlike CPUs or RAM, GPUs require extensive functional testing before resale. A GPU that passes basic boot tests may still have degraded memory, thermal throttling issues, or interconnect problems that only appear under sustained workloads. Proper GPU certification includes:</p>
+
+<ul>
+  <li><strong>Memory stress testing.</strong> HBM (High Bandwidth Memory) modules can develop bit errors over time. Full memory scan testing is essential.</li>
+  <li><strong>Compute benchmarking.</strong> Compare actual FP16/FP32/INT8 throughput against published specifications. Performance degradation of more than 3&ndash;5% indicates potential issues.</li>
+  <li><strong>Thermal profiling.</strong> Run sustained workloads and verify that thermal behavior is within normal parameters. GPUs that have been operating in poorly cooled environments may have accelerated degradation.</li>
+  <li><strong>NVLink/NVSwitch testing.</strong> For SXM-form-factor GPUs in multi-GPU configurations, the high-speed interconnects must be verified. A faulty NVLink connection degrades the entire node, not just the affected GPU.</li>
+  <li><strong>Serial number verification.</strong> Confirm that serial numbers match NVIDIA&rsquo;s database and that the GPU is not stolen, subject to RMA claims, or under existing lease agreements.</li>
+</ul>
+
+<h3>Form Factor Considerations</h3>
+
+<p>GPU form factor significantly affects secondary-market liquidity and pricing:</p>
+
+<table class="dt">
+  <tr><th>Form Factor</th><th>Liquidity</th><th>Price Premium</th><th>Buyer Profile</th></tr>
+  <tr><td>SXM5 (H100)</td><td>High</td><td>20&ndash;30% vs. PCIe</td><td>Cloud providers, HPC clusters</td></tr>
+  <tr><td>PCIe (H100, A100)</td><td>Very High</td><td>Baseline</td><td>Broadest buyer base; any PCIe slot</td></tr>
+  <tr><td>DGX Systems (8-GPU)</td><td>Medium</td><td>Slight discount per-GPU</td><td>Buyers wanting turnkey; fewer buyers at scale</td></tr>
+  <tr><td>HGX Baseboards</td><td>Medium-Low</td><td>10&ndash;15% discount</td><td>Specialized buyers with compatible chassis</td></tr>
+  <tr><td>Custom OEM Trays</td><td>Low</td><td>20&ndash;30% discount</td><td>Parts harvesters; limited direct reuse</td></tr>
+</table>
+
+<p>PCIe-form-factor GPUs have the broadest buyer base because they drop into any standard server with appropriate power and cooling. SXM-form-factor GPUs deliver higher performance (due to higher TDP and NVLink) but require specific baseboard and cooling infrastructure, limiting the buyer pool.</p>
+
+<h2>Pricing Forecast: Where H100 Prices Are Headed</h2>
+
+<p>Based on current supply dynamics, Blackwell ramp timelines, and historical GPU depreciation patterns, here is our pricing forecast for the NVIDIA H100 SXM5 80GB through 2027:</p>
+
+<table class="dt">
+  <tr><th>Period</th><th>Projected Price Range</th><th>Key Driver</th></tr>
+  <tr><td>Q2 2026 (now)</td><td>$15,000&ndash;$21,000</td><td>Blackwell initial deployments; early Hopper displacement</td></tr>
+  <tr><td>Q3 2026</td><td>$13,000&ndash;$18,000</td><td>Blackwell volume production; hyperscaler decommissions accelerate</td></tr>
+  <tr><td>Q4 2026</td><td>$11,000&ndash;$15,000</td><td>Peak supply as major cloud providers complete transitions</td></tr>
+  <tr><td>H1 2027</td><td>$8,000&ndash;$12,000</td><td>Market stabilization; strong inference demand creates floor</td></tr>
+  <tr><td>H2 2027</td><td>$6,000&ndash;$10,000</td><td>Next-gen (Rubin) announcements begin new depreciation cycle</td></tr>
+</table>
+
+<p>The A100 trajectory is further along the same curve. We expect A100 SXM4 80GB pricing to settle at $3,000&ndash;$5,000 by late 2026 and potentially below $2,500 by mid-2027. At those prices, A100s become viable for a dramatically wider range of applications, from university research to small-business AI deployments.</p>
+
+<h2>The Seller&rsquo;s Playbook: Maximizing GPU Recovery Value</h2>
+
+<p>If you are sitting on GPU inventory that will be displaced by Blackwell, the time to act is now. Here is the optimal disposition strategy:</p>
+
+<h3>1. List Before Announcing Your Transition</h3>
+
+<p>The moment you announce a Blackwell deployment, the market knows your Hopper hardware is coming. Buyers will wait. Start remarketing GPU inventory 60&ndash;90 days before your planned transition, not after.</p>
+
+<h3>2. Sell Systems, Not Just GPUs</h3>
+
+<p>A complete, tested DGX H100 system with networking and documentation commands a premium over individual GPUs because it reduces the buyer&rsquo;s integration effort. If you can ship functional systems instead of bare accelerators, the total recovery per GPU is typically 5&ndash;10% higher.</p>
+
+<h3>3. Provide Full Documentation</h3>
+
+<p>Run hours, thermal history, firmware versions, RMA history, and NIST 800-88 data sanitization certificates. Every piece of documentation increases buyer confidence and supports higher pricing. Undocumented GPUs sell at 15&ndash;20% discount to documented equivalents.</p>
+
+<h3>4. Target the Right Buyers</h3>
+
+<p>Do not dump GPU inventory into a liquidation auction. The buyers at auction are looking for distressed pricing. Instead, work with specialized GPU brokers and infrastructure resellers who have relationships with mid-tier cloud providers, inference deployers, and international buyers. These channels command 20&ndash;30% higher pricing than auction channels.</p>
+
+<h3>5. Consider Lease-Back Arrangements</h3>
+
+<p>Some buyers are willing to purchase your GPU inventory and lease it back to you for a transition period while your Blackwell infrastructure is being deployed. This provides immediate capital recovery while maintaining operational continuity. Lease-back terms typically run 3&ndash;6 months at 3&ndash;5% of sale price per month.</p>
+
+<h2>The Macro Picture</h2>
+
+<p>What is happening in the GPU market is unprecedented in enterprise IT. No hardware category has ever combined this level of unit value, this pace of obsolescence, and this volume of displacement. The closest analogy is the transition from magnetic tape to disk storage in the 1990s, but the dollar amounts involved are orders of magnitude larger.</p>
+
+<p>For the secondary market, the GPU liquidation wave is both a challenge and an enormous opportunity. The infrastructure that was exclusive to hyperscalers 18 months ago is becoming accessible to mid-market companies, startups, and emerging-market buyers at prices that make AI deployment economically viable for a far wider range of organizations.</p>
+
+<p>The winners in this transition will be the organizations&mdash;both sellers and buyers&mdash;that move decisively. Sellers who liquidate early recover 40&ndash;60% of original value. Sellers who wait recover 20&ndash;30%. Buyers who acquire now get current-generation AI capability at half the cost of new. Buyers who wait get lower prices but risk missing the window where GPU availability is abundant and the infrastructure ecosystem still supports Hopper-generation hardware.</p>
+
+<blockquote>The Blackwell transition is not a disruption. It is a redistribution. The compute does not disappear&mdash;it moves down-market, creating capability where none existed before.</blockquote>
+
+</div>
+
+<div class="ac2">
+  <h3>Buying or selling GPU infrastructure?</h3>
+  <p>We broker GPU liquidation transactions for hyperscalers, enterprises, and mid-market buyers. Certified, documented, and priced to market.</p>
+  <a href="../index.html#contact">Get a Market Valuation &rarr;</a>
+</div>
+
+<footer><div class="fts"><p>&copy; 2026 Standard Mobile Company. All Rights Reserved.</p><a href="../index.html">Home</a></div></footer>
+</body>
+</html>
