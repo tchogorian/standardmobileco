@@ -23,9 +23,10 @@
 html{scroll-behavior:smooth}
 body{background:var(--off);color:var(--black);font-family:var(--f);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
-nav{position:fixed;top:0;left:0;right:0;z-index:999;height:48px;background:rgba(255,255,255,.82);backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px);border-bottom:1px solid rgba(0,0,0,.09)}
+nav{position:fixed;top:0;left:0;right:0;z-index:999;height:90px;background:rgba(255,255,255,.92);backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px);border-bottom:1px solid rgba(0,0,0,.09)}
 .nav-in{max-width:1080px;margin:0 auto;height:100%;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{font-size:.85rem;font-weight:700;color:var(--black);text-decoration:none;letter-spacing:-.02em}
+.nav-logo{text-decoration:none;display:flex;align-items:center}
+.nav-logo img{height:72px;width:auto;display:block}
 .nav-links{list-style:none;display:flex;align-items:center;gap:2px}
 .nav-links a{font-size:.75rem;font-weight:400;color:var(--g2);text-decoration:none;padding:6px 10px;border-radius:6px;transition:color .15s,background .15s;white-space:nowrap}
 .nav-links a:hover{color:var(--black);background:rgba(0,0,0,.04)}
@@ -85,7 +86,7 @@ footer{background:#0a0a0a;border-radius:24px 24px 0 0;overflow:hidden}
 
 <nav>
 <div class="nav-in">
-  <a class="nav-logo" href="index.html">Standard Mobile Company</a>
+  <a class="nav-logo" href="index.html"><img src="assets/logo.png" alt="Standard Mobile Company"/></a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="index.html#services">Services</a></li>
