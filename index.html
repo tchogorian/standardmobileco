@@ -27,28 +27,24 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:90px;background:rgba(
 .nav-links a.cta:hover{background:#333}
 
 /* HERO */
-.hero{position:relative;overflow:hidden;background:var(--white);border-bottom:1px solid var(--g1);padding:130px 24px 64px;text-align:center}
+.hero{position:relative;overflow:hidden;background:var(--white);border-bottom:1px solid var(--g1);padding:112px 24px 48px;text-align:center}
 .hero-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 70% 50% at 15% 40%,rgba(0,102,204,.06) 0%,transparent 60%),radial-gradient(ellipse 50% 40% at 85% 25%,rgba(217,92,26,.06) 0%,transparent 60%);animation:breathe 8s ease-in-out infinite alternate}
 @keyframes breathe{from{opacity:.5;transform:scale(1)}to{opacity:1;transform:scale(1.04)}}
 .hero-content{position:relative;z-index:1;max-width:900px;margin:0 auto}
-.hero-kicker{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--g2);margin-bottom:1.4rem;animation:up .65s ease both}
+.hero-kicker{display:inline-flex;align-items:center;gap:8px;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--g2);margin-bottom:1.1rem;animation:up .65s ease both}
 .hero-kicker span{display:block;width:24px;height:1.5px;background:var(--g1)}
-.hero h1{font-size:clamp(2.6rem,6.5vw,5.4rem);font-weight:900;letter-spacing:-0.045em;line-height:.98;color:var(--black);margin-bottom:1.3rem;animation:up .65s .08s ease both}
+.hero h1{font-size:clamp(2rem,4.4vw,3.4rem);font-weight:900;letter-spacing:-0.035em;line-height:1.03;color:var(--black);margin-bottom:.9rem;animation:up .65s .08s ease both}
 .hero h1 .o{color:var(--orange)}
 .hero h1 .b{color:var(--blue)}
-.hero-sub{font-size:clamp(1rem,1.9vw,1.25rem);font-weight:300;color:var(--g2);max-width:600px;margin:0 auto 1.7rem;line-height:1.65;animation:up .65s .15s ease both}
-.hero-badges{display:flex;gap:.5rem 1.6rem;flex-wrap:wrap;justify-content:center;max-width:600px;margin:0 auto 2rem;animation:up .65s .19s ease both}
-.hb{display:inline-flex;align-items:center;gap:.4rem;font-size:.82rem;font-weight:500;color:var(--g2)}
-.hb::before{content:'\2713';color:var(--blue);font-weight:800;font-size:.85rem}
-.hero-btns{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;animation:up .65s .23s ease both}
+.hero-sub{font-size:clamp(.95rem,1.5vw,1.08rem);font-weight:300;color:var(--g2);max-width:500px;margin:0 auto 1.6rem;line-height:1.6;animation:up .65s .15s ease both}
+.hero-btns{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;animation:up .65s .2s ease both}
 .btn{display:inline-block;padding:.8rem 1.8rem;border-radius:980px;font-size:.92rem;font-weight:600;text-decoration:none;transition:all .18s}
 .btn-dark{background:var(--black);color:#fff}.btn-dark:hover{background:#333;transform:translateY(-1px)}
 .btn-outline{border:1.5px solid var(--g1);color:var(--black)}.btn-outline:hover{border-color:#999;transform:translateY(-1px)}
 @keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-.hero-video-wrap{position:relative;z-index:1;max-width:940px;margin:3.4rem auto 0;animation:up .7s .3s ease both}
-.hero-video{position:relative;border-radius:18px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.18)}
+.hero-video-wrap{position:relative;z-index:1;max-width:880px;margin:2.4rem auto 0;animation:up .7s .28s ease both}
+.hero-video{position:relative;border-radius:16px;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.16)}
 .hero-video video{display:block;width:100%;height:auto}
-.hero-video-cap{font-size:.72rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--g2);margin-top:1rem}
 
 /* MARQUEE */
 .mq{background:var(--black);overflow:hidden;padding:14px 0}
@@ -261,10 +257,8 @@ footer{background:#0a0a0a;margin-top:10px;border-radius:24px 24px 0 0;overflow:h
   .nav-links a.cta{font-size:.78rem;padding:7px 15px}
   .hero{padding:88px 20px 44px}
   .hero-kicker{margin-bottom:1rem}
-  .hero h1{font-size:2.3rem;line-height:1.05}
-  .hero-sub{font-size:1rem;margin-bottom:1.4rem}
-  .hero-badges{gap:.45rem 1.1rem;margin-bottom:1.5rem}
-  .hb{font-size:.75rem}
+  .hero h1{font-size:2.15rem;line-height:1.06}
+  .hero-sub{font-size:1rem;margin-bottom:1.3rem}
   .hero-btns{width:100%;flex-direction:column}
   .hero-btns .btn{width:100%;text-align:center}
   .hero-video-wrap{margin-top:2.2rem}
@@ -296,13 +290,7 @@ footer{background:#0a0a0a;margin-top:10px;border-radius:24px 24px 0 0;overflow:h
   <div class="hero-content">
     <div class="hero-kicker"><span></span>Professional Device Refurbishing<span></span></div>
     <h1>Your <span class="b">refurbishing partner</span>,<br><span class="o">built to scale.</span></h1>
-    <p class="hero-sub">We professionally refurbish phones, tablets, and laptops &mdash; done legally, handled safely, and priced lower than anyone in the market.</p>
-    <div class="hero-badges">
-      <span class="hb">R2 Compliant</span>
-      <span class="hb">Certified Data Destruction</span>
-      <span class="hb">Fully Legal &amp; Compliant</span>
-      <span class="hb">Warranty Backed</span>
-    </div>
+    <p class="hero-sub">We refurbish phones, tablets, and laptops &mdash; professionally, legally, and for less.</p>
     <div class="hero-btns">
       <a href="#contact" class="btn btn-dark">Get a Quote</a>
       <a href="#process" class="btn btn-outline">See How It Works</a>
@@ -315,7 +303,6 @@ footer{background:#0a0a0a;margin-top:10px;border-radius:24px 24px 0 0;overflow:h
         Your browser does not support the video tag.
       </video>
     </div>
-    <p class="hero-video-cap">Inside our facility &mdash; every device inspected, repaired, and certified</p>
   </div>
 </div>
 
