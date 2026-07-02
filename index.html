@@ -33,7 +33,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:90px;background:rgba(
 .hero-content{position:relative;z-index:1;max-width:900px;margin:0 auto}
 .hero-kicker{display:inline-flex;align-items:center;gap:8px;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--g2);margin-bottom:1.1rem;animation:up .65s ease both}
 .hero-kicker span{display:block;width:24px;height:1.5px;background:var(--g1)}
-.hero h1{font-size:clamp(2rem,4.4vw,3.4rem);font-weight:900;letter-spacing:-0.035em;line-height:1.03;color:var(--black);margin-bottom:.9rem;animation:up .65s .08s ease both}
+.hero h1{font-size:clamp(2rem,4.4vw,3.4rem);font-weight:900;letter-spacing:-0.035em;line-height:1.03;color:var(--black);margin-bottom:0;animation:up .65s .08s ease both}
 .hero h1 .o{color:var(--orange)}
 .hero h1 .b{color:var(--blue)}
 .hero-sub{font-size:clamp(.95rem,1.5vw,1.08rem);font-weight:300;color:var(--g2);max-width:500px;margin:0 auto 1.6rem;line-height:1.6;animation:up .65s .15s ease both}
@@ -42,7 +42,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:90px;background:rgba(
 .btn-dark{background:var(--black);color:#fff}.btn-dark:hover{background:#333;transform:translateY(-1px)}
 .btn-outline{border:1.5px solid var(--g1);color:var(--black)}.btn-outline:hover{border-color:#999;transform:translateY(-1px)}
 @keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
-.hero-video-wrap{position:relative;z-index:1;max-width:880px;margin:2.4rem auto 0;animation:up .7s .28s ease both}
+.hero-video-wrap{position:relative;z-index:1;max-width:880px;margin:2.2rem auto 0;animation:up .7s .28s ease both}
+.hero-video-label{font-size:.7rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--g2);margin-bottom:.9rem;text-align:center}
 .hero-video{position:relative;border-radius:16px;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.16)}
 .hero-video video{display:block;width:100%;height:auto}
 
@@ -287,17 +288,12 @@ footer{background:#0a0a0a;margin-top:10px;border-radius:24px 24px 0 0;overflow:h
 <div class="hero">
   <div class="hero-bg"></div>
   <div class="hero-content">
-    <div class="hero-kicker"><span></span>Professional Device Refurbishing<span></span></div>
-    <h1>Your <span class="b">refurbishing partner</span>,<br><span class="o">built to scale.</span></h1>
-    <p class="hero-sub">We refurbish phones, tablets, and laptops &mdash; professionally, legally, and for less.</p>
-    <div class="hero-btns">
-      <a href="#contact" class="btn btn-dark">Get a Quote</a>
-      <a href="#process" class="btn btn-outline">See How It Works</a>
-    </div>
+    <h1>Refurbished to a Higher Standard.</h1>
   </div>
   <div class="hero-video-wrap">
+    <p class="hero-video-label">&#9654;&nbsp; Factory Video Tour &middot; tap for sound</p>
     <div class="hero-video">
-      <video controls playsinline preload="metadata" poster="https://raw.githubusercontent.com/tchogorian/standardmobileco/main/hero-video-poster.jpg">
+      <video autoplay muted loop playsinline controls preload="auto" poster="https://raw.githubusercontent.com/tchogorian/standardmobileco/main/hero-video-poster.jpg">
         <source src="https://raw.githubusercontent.com/tchogorian/standardmobileco/main/hero-video.mp4" type="video/mp4">
         Your browser does not support the video tag.
       </video>
