@@ -191,10 +191,11 @@ footer{background:#0d0d0f;color:#fff;padding:54px 0 42px}
   <div class="wrap">
     <h2>Ready to quote your repair?</h2>
     <p class="quote-sub">Send your list. Full quote in 72 hours.</p>
-    <form id="quote-form" action="https://formsubmit.co/ajax/hello@standardmobilecompany.com" method="POST" enctype="multipart/form-data">
+    <form id="quote-form" action="https://formsubmit.co/hello@standardmobilecompany.com" method="POST" enctype="multipart/form-data">
       <input type="hidden" name="_subject" value="New quote request from standardmobileco.com"/>
       <input type="hidden" name="_captcha" value="false"/>
       <input type="hidden" name="_template" value="table"/>
+      <input type="hidden" name="_next" value="https://standardmobileco.com/thankyou.html"/>
       <input type="text" name="_honey" style="display:none"/>
       <div class="f-err" id="f-err"></div>
       <div class="f-row">
@@ -208,7 +209,7 @@ footer{background:#0d0d0f;color:#fff;padding:54px 0 42px}
       <textarea name="message" placeholder="Tell us about your devices — models, quantities, issues." required></textarea>
       <label class="drop" id="drop">
         <input type="file" id="file" name="attachment" accept=".csv,.xlsx,.pdf"/>
-        <div class="drop-t">Upload your product list &mdash; <strong>CSV, XLSX, or PDF</strong> (max 25MB)</div>
+        <div class="drop-t">Upload your product list &mdash; <strong>CSV, XLSX, or PDF</strong> (max 10MB)</div>
         <div class="drop-file" id="drop-file"></div>
       </label>
       <button type="submit" class="btn" id="submit-btn">Request My Quote</button>
@@ -255,12 +256,12 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
 // File upload (drag & drop + validation)
 const drop=document.getElementById('drop'),fileInput=document.getElementById('file'),dropFile=document.getElementById('drop-file');
-const MAX=25*1024*1024,OK=['.csv','.xlsx','.pdf'];
+const MAX=10*1024*1024,OK=['.csv','.xlsx','.pdf'];
 function showFile(f){
   if(!f){dropFile.style.display='none';return true;}
   const ext=('.'+f.name.split('.').pop()).toLowerCase();
   if(!OK.includes(ext)){dropFile.style.display='block';dropFile.style.color='#c0392b';dropFile.textContent='Unsupported file type. Use CSV, XLSX, or PDF.';return false;}
-  if(f.size>MAX){dropFile.style.display='block';dropFile.style.color='#c0392b';dropFile.textContent='File is over 25MB. Please compress or split it.';return false;}
+  if(f.size>MAX){dropFile.style.display='block';dropFile.style.color='#c0392b';dropFile.textContent='File is over 10MB. Please compress or split it.';return false;}
   dropFile.style.display='block';dropFile.style.color='';dropFile.textContent='Attached: '+f.name;return true;
 }
 fileInput.addEventListener('change',()=>showFile(fileInput.files[0]));
@@ -268,29 +269,16 @@ fileInput.addEventListener('change',()=>showFile(fileInput.files[0]));
 ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('drag')}));
 drop.addEventListener('drop',e=>{if(e.dataTransfer.files.length){fileInput.files=e.dataTransfer.files;showFile(fileInput.files[0]);}});
 
-// Form submit
+// Form submit — native POST to FormSubmit so file attachments are actually delivered
+// (the /ajax/ endpoint silently drops files). On success FormSubmit redirects to _next (thankyou.html).
 const form=document.getElementById('quote-form'),btn=document.getElementById('submit-btn'),err=document.getElementById('f-err');
 form.addEventListener('submit',function(e){
-  e.preventDefault();
   err.style.display='none';
   const email=form.email.value.trim();
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){err.textContent='Please enter a valid email address.';err.style.display='block';return;}
-  if(fileInput.files[0]&&!showFile(fileInput.files[0])){return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){e.preventDefault();err.textContent='Please enter a valid email address.';err.style.display='block';return;}
+  if(fileInput.files[0]&&!showFile(fileInput.files[0])){e.preventDefault();return;}
   btn.disabled=true;btn.textContent='Sending…';
-  // NOTE: FormSubmit is the current handler. File attachments are sent via multipart FormData.
-  // TODO: confirm attachment delivery / swap to portal backend when available.
-  const data=new FormData(form);
-  fetch(form.action,{method:'POST',body:data,headers:{'Accept':'application/json'}})
-    .then(r=>r.json().then(d=>({ok:r.ok,d})))
-    .then(({ok,d})=>{
-      if(ok&&d.success){
-        document.querySelector('.quote .wrap').innerHTML='<div class="f-success"><div class="ck">\u2713</div><h3>Got it.</h3><p>Quote within 72 hours.</p></div>';
-      } else { throw new Error(d.message||'Something went wrong.'); }
-    })
-    .catch(ex=>{
-      err.textContent=(ex.message||'Failed to send.')+' You can also email hello@standardmobilecompany.com directly.';
-      err.style.display='block';btn.disabled=false;btn.textContent='Request My Quote';
-    });
+  // valid -> let the browser submit natively (multipart, includes the file)
 });
 </script>
 </body>
