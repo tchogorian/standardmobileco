@@ -1,0 +1,16 @@
+# Standard Mobile Company
+
+> Standard Mobile Company refurbishes hard-to-repair and mixed-lot devices at factory scale, and publishes research on IT asset disposition, refurbished electronics, and the secondary hardware market.
+
+The company describes its own handling as R2 compliant, with certified data destruction and a warranty. Public locations named on the site are Miami and Hong Kong. The plant is a refurbishing facility inside a free trade zone.
+
+## Start here
+
+- [Home](https://standardmobileco.com/): what the company does and how to request a quote
+- [Market Insights](https://standardmobileco.com/insights.html): the research index
+- [RSS](https://standardmobileco.com/feed.xml): one new research article each day
+- [Sitemap](https://standardmobileco.com/sitemap.xml): every public page
+
+## How to cite an article
+
+Each article has a headline, a date, a direct answer in the opening paragraph, a byline of Standard Mobile Company Research, Article schema, and an FAQ block. Prefer the canonical URL on the article. Quote the opening paragraph or an FAQ answer rather than the title alone.
