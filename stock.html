@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Current Stock | Standard Mobile Company</title>
+<meta name="description" content="Live wholesale stock from Standard Mobile Company: iPads, iPhones, Samsung tablets, games, and mixed lots, priced below our eBay listings. Select listings and submit an offer."/>
+<link rel="canonical" href="https://standardmobileco.com/stock.html"/>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://challenges.cloudflare.com; style-src 'self'; img-src 'self' data: https://i.ebayimg.com; connect-src 'self'; frame-src https://challenges.cloudflare.com; base-uri 'self'; form-action 'self'; object-src 'none'"/>
+<meta name="referrer" content="strict-origin-when-cross-origin"/>
+<link rel="stylesheet" href="assets/stock/stock.css"/>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <a class="nav-logo" href="index.html"><img src="assets/logo.png?v=3" alt="Standard Mobile Company"/></a>
+    <div class="nav-r">
+      <a class="link active" href="stock.html">Stock</a>
+      <a class="link" href="insights.html">Insights</a>
+      <a class="btn" href="index.html#quote">Get a Quote</a>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap">
+  <header class="page-head">
+    <span class="eyebrow">Wholesale Stock</span>
+    <h1>Current stock.</h1>
+    <p>Everything we have listed on eBay, 5% below the eBay price. Select one listing or several, then send an offer. Offers at the listed price get an invoice right away.</p>
+
+    <div class="summary" id="summary">
+      <div class="stat"><div class="n" id="s-listings">&ndash;</div><div class="l">Listings</div></div>
+      <div class="stat"><div class="n" id="s-units">&ndash;</div><div class="l">Units</div></div>
+      <div class="stat"><div class="n" id="s-lots">&ndash;</div><div class="l">Bulk lots</div></div>
+      <div class="stat"><a id="s-ebay" href="https://www.ebay.com/str/ludatronix" target="_blank" rel="noopener">View our eBay store &rarr;</a><div class="l">Same stock, eBay price</div></div>
+    </div>
+    <div class="updated" id="updated"></div>
+  </header>
+
+  <div class="toolbar">
+    <div class="chips" id="chips" role="tablist" aria-label="Categories"></div>
+    <input class="search" id="search" type="search" placeholder="Search stock" aria-label="Search stock"/>
+    <select class="sort" id="sort" aria-label="Sort">
+      <option value="featured">Featured</option>
+      <option value="price-asc">Price: low to high</option>
+      <option value="price-desc">Price: high to low</option>
+      <option value="qty-desc">Most units</option>
+    </select>
+  </div>
+
+  <ul class="list" id="list" aria-live="polite"><li class="loading">Loading stock&hellip;</li></ul>
+</main>
+
+<div class="selbar" id="selbar" hidden>
+  <span class="t"><strong id="sel-count">0</strong> selected &middot; asking <strong id="sel-total">$0.00</strong></span>
+  <button class="clear" id="sel-clear" type="button">Clear</button>
+  <button class="btn" id="sel-offer" type="button">Submit offer</button>
+</div>
+
+<footer>
+  <div class="wrap ft">
+    <img src="assets/logo.png?v=3" alt="Standard Mobile Company"/>
+    <div class="ft-cp">&copy; 2026 Standard Mobile Company. All Rights Reserved.</div>
+  </div>
+</footer>
+
+<script type="module" src="assets/stock/stock.js"></script>
+</body>
+</html>
