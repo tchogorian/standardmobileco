@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://standardmobileco.com/insights.html</loc>
-    <lastmod>2026-11-13</lastmod>
+    <lastmod>2026-11-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -28,6 +28,12 @@
   </url>
 
   <!-- Articles -->
+  <url>
+    <loc>https://standardmobileco.com/articles/three-year-lease-returns-wholesale-business-laptop-pricing.html</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
   <url>
     <loc>https://standardmobileco.com/articles/apple-silicon-mac-depreciation-m1-through-later-chips.html</loc>
     <lastmod>2026-11-13</lastmod>
