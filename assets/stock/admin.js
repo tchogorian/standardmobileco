@@ -1,4 +1,4 @@
-import { CONFIG, listOffers, decideOffer, formatMoney, resetMockData } from './api.js';
+import { listOffers, decideOffer, qboStatus, formatMoney } from './api.js';
 import { h, formatDateTime } from './dom.js';
 
 const TABS = [
@@ -11,15 +11,25 @@ const TABS = [
 const state = { offers: [], tab: 'pending' };
 const $ = (id) => document.getElementById(id);
 
-if (CONFIG.MODE === 'mock') {
-  const note = $('admin-note');
-  note.hidden = false;
-  note.append(
-    'Preview mode: offers come from this browser only. In production this page must sit behind Cloudflare Access. ',
-    h('button', { class: 'btn ghost sm', type: 'button', onclick: () => { resetMockData(); load(); } }, 'Clear sample offers'));
-}
-
 load();
+loadQbo();
+
+async function loadQbo() {
+  const note = $('admin-note');
+  let s;
+  try {
+    s = await qboStatus();
+  } catch {
+    return;
+  }
+  note.hidden = false;
+  note.classList.toggle('ok', s.connected);
+  const connect = h('a', { class: 'btn ghost sm', href: '/api/admin/qbo/connect' }, s.connected ? 'Reconnect' : 'Connect QuickBooks');
+  note.replaceChildren(s.connected
+    ? `QuickBooks connected (${s.environment}, company ${s.realmId}). Invoices are created and emailed automatically. `
+    : `QuickBooks is not connected (${s.environment}). Customers still see an invoice, but you must create it in QuickBooks by hand. `,
+  connect);
+}
 
 async function load() {
   try {
@@ -83,9 +93,18 @@ function renderOffer(o) {
       h('span', {}, `${i.title} `, h('a', { href: i.ebayUrl, target: '_blank', rel: 'noopener noreferrer' }, `${i.id} \u2197`)),
       h('span', {}, formatMoney(i.price))))),
     o.notes ? h('div', { class: 'oc-notes' }, `\u201c${o.notes}\u201d`) : null,
-    o.status === 'accepted' && o.invoice
-      ? h('div', { class: 'remove-ebay' }, `Invoice ${o.invoice.number} sent for ${formatMoney(o.invoice.total)}. End these listings on eBay using the links above.`)
+    o.status === 'accepted' && o.invoice && o.invoice.qboError
+      ? h('div', { class: 'qbo-error' }, `QuickBooks invoice failed, create it by hand for ${formatMoney(o.invoice.total)} (reference ${o.invoice.number}). ${o.invoice.qboError}`)
       : null,
+    o.status === 'accepted' && o.invoice
+      ? h('div', { class: 'remove-ebay' }, `Invoice ${o.invoice.number} for ${formatMoney(o.invoice.total)}. End these listings on eBay using the links above.`)
+      : null,
+    o.status === 'accepted' ? h('div', { class: 'oc-actions' },
+      h('button', {
+        class: 'btn ghost sm', type: 'button',
+        onclick: () => { if (confirm('Release these listings back to the stock page? Void the QuickBooks invoice separately.')) act('release'); },
+      }, 'Customer backed out: release listings'),
+      err) : null,
     open ? h('div', { class: 'oc-actions' },
       h('button', { class: 'btn sm', type: 'button', onclick: () => act('accept') },
         o.status === 'countered' ? `Accept at ${formatMoney(o.counterAmount)}` : 'Accept & invoice'),

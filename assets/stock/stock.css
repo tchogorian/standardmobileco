@@ -156,6 +156,9 @@ table.inv tfoot tr.total td{font-size:1.05rem;padding-top:.8rem}
 .status.countered{background:#eef4ff;color:var(--acc)}
 .status.accepted{background:#e7f6ec;color:var(--ok)}
 .status.denied{background:#fbeaea;color:var(--bad)}
+.admin-note.ok{background:#e7f6ec;border-color:#bfe3cb;color:#185c35}
+.admin-note .btn{margin-left:6px}
+.qbo-error{margin-top:12px;background:#fbeaea;border-radius:12px;padding:10px 14px;font-size:.82rem;color:#8a2a1f;word-break:break-word}
 .remove-ebay{margin-top:12px;background:#e7f6ec;border-radius:12px;padding:10px 14px;font-size:.82rem;color:#185c35}
 
 @media(max-width:760px){

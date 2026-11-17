@@ -1,5 +1,5 @@
 import { CONFIG, getStock, submitOffer, formatMoney, whatsappLink } from './api.js';
-import { h, formatDate } from './dom.js';
+import { h, formatDate, formatDateTime } from './dom.js';
 
 const state = { stock: null, category: 'All', query: '', sort: 'featured', selected: new Set() };
 const $ = (id) => document.getElementById(id);
@@ -38,15 +38,16 @@ function byId(id) {
 function renderSummary() {
   const listings = state.stock.listings.filter((l) => l.status === 'available');
   $('s-listings').textContent = listings.length;
-  $('s-units').textContent = listings.reduce((s, l) => s + (l.quantity || 1), 0);
+  $('s-cats').textContent = new Set(listings.map((l) => l.category)).size;
   $('s-lots').textContent = listings.filter((l) => l.isLot).length;
-  const sample = state.stock.source === 'sample' ? ' Sample data for layout preview.' : '';
-  $('updated').textContent = `Updated ${formatDate(state.stock.updatedAt)}.${sample}`;
+  $('updated').textContent = `Updated ${formatDateTime(state.stock.updatedAt)}.`;
 }
 
 function renderChips() {
-  const counts = new Map([['All', state.stock.listings.length]]);
-  for (const l of state.stock.listings) counts.set(l.category, (counts.get(l.category) || 0) + 1);
+  const byCount = new Map();
+  for (const l of state.stock.listings) byCount.set(l.category, (byCount.get(l.category) || 0) + 1);
+  const sorted = [...byCount].sort((a, b) => (a[0] === 'Other') - (b[0] === 'Other') || b[1] - a[1]);
+  const counts = new Map([['All', state.stock.listings.length], ...sorted]);
   $('chips').replaceChildren(...[...counts].map(([name, n]) => h('button', {
     class: `chip${state.category === name ? ' active' : ''}`,
     type: 'button',
@@ -63,7 +64,7 @@ function visibleListings() {
   const sorters = {
     'price-asc': (a, b) => a.sitePrice - b.sitePrice,
     'price-desc': (a, b) => b.sitePrice - a.sitePrice,
-    'qty-desc': (a, b) => (b.quantity || 1) - (a.quantity || 1),
+    'title': (a, b) => a.title.localeCompare(b.title),
   };
   if (sorters[state.sort]) rows = [...rows].sort(sorters[state.sort]);
   return rows.sort((a, b) => (a.status === 'pending') - (b.status === 'pending'));
@@ -103,7 +104,7 @@ function renderRow(l) {
         l.isLot ? h('span', { class: 'tag lot' }, 'Lot') : null,
         pending ? h('span', { class: 'tag pending' }, 'Pending') : null,
         h('span', {}, l.condition),
-        h('span', {}, `Qty ${l.quantity || 1}`),
+        l.quantity ? h('span', {}, `${l.quantity} units`) : null,
         h('span', {}, l.category))),
     h('a', {
       class: 'r-ebay', href: l.ebayUrl, target: '_blank', rel: 'noopener',
@@ -164,7 +165,9 @@ function openOfferModal() {
     if (!(v > 0)) { hint.className = 'hint'; hint.textContent = ''; return; }
     if (v >= asking) {
       hint.className = 'hint ok';
-      hint.textContent = 'At asking price: you get an invoice right away.';
+      hint.textContent = v > asking
+        ? 'Above asking: you get an invoice for the listed price right away.'
+        : 'At asking price: you get an invoice right away.';
     } else {
       hint.className = 'hint warn';
       hint.textContent = `${Math.round((1 - v / asking) * 100)}% below asking: our team reviews it and replies by email.`;
@@ -202,6 +205,43 @@ function openOfferModal() {
       h('li', { class: 'tot' }, h('span', {}, 'Asking total'), h('span', {}, formatMoney(asking)))),
     form,
   ]);
+  renderTurnstile($('turnstile-slot')).catch(() => {
+    err.textContent = 'Could not load the verification check. Refresh and try again.';
+  });
+}
+
+// ---------- Turnstile ----------
+
+let turnstileLoad = null;
+const captcha = { widgetId: null, token: null };
+
+function loadTurnstile() {
+  turnstileLoad ||= new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+    s.async = true;
+    s.onload = () => resolve(window.turnstile);
+    s.onerror = () => { turnstileLoad = null; reject(new Error('turnstile')); };
+    document.head.append(s);
+  });
+  return turnstileLoad;
+}
+
+async function renderTurnstile(slot) {
+  const turnstile = await loadTurnstile();
+  if (!slot.isConnected) return;
+  captcha.token = null;
+  captcha.widgetId = turnstile.render(slot, {
+    sitekey: CONFIG.TURNSTILE_SITE_KEY,
+    callback: (t) => { captcha.token = t; },
+    'expired-callback': () => { captcha.token = null; },
+    'error-callback': () => { captcha.token = null; },
+  });
+}
+
+function resetTurnstile() {
+  captcha.token = null;
+  if (window.turnstile && captcha.widgetId != null) window.turnstile.reset(captcha.widgetId);
 }
 
 async function onSubmitOffer(e, form, items, asking, submit, err) {
@@ -221,6 +261,7 @@ async function onSubmitOffer(e, form, items, asking, submit, err) {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email)) return void (err.textContent = 'Enter a valid email.');
   if (customer.phone.replace(/\D/g, '').length < 7) return void (err.textContent = 'Enter a phone or WhatsApp number.');
   if (!(offerAmount > 0)) return void (err.textContent = 'Enter your offer.');
+  if (!captcha.token) return void (err.textContent = 'Please wait for the verification check to finish.');
 
   // Browsers only allow pop-ups during the click itself, so reserve the WhatsApp tab now.
   const waTab = offerAmount >= asking ? window.open('', '_blank') : null;
@@ -234,7 +275,7 @@ async function onSubmitOffer(e, form, items, asking, submit, err) {
       offerAmount,
       customer,
       notes: String(f.get('notes') || '').trim(),
-      turnstileToken: null,
+      turnstileToken: captcha.token,
     });
     state.selected.clear();
     if (res.result === 'invoiced') {
@@ -248,6 +289,7 @@ async function onSubmitOffer(e, form, items, asking, submit, err) {
     loadStock();
   } catch (ex) {
     if (waTab) waTab.close();
+    resetTurnstile();
     err.textContent = ex.message || 'Something went wrong. Try again.';
     submit.disabled = false;
     submit.textContent = 'Submit offer';
