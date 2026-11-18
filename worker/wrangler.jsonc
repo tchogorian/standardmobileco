@@ -21,7 +21,7 @@
     "FROM_EMAIL": "offers@standardmobileco.com",
     "ZELLE_RECIPIENT": "alex@standardmobilecompany.com",
     "WHATSAPP_DISPLAY": "+1 786-613-5141",
-    "DISCOUNT": "0.05",
+    "DISCOUNT": "0.03",
     "INVOICE_DUE_DAYS": "3",
     "QBO_ENV": "sandbox",
     "QBO_CLIENT_ID": "AByXATBXP9CVUaqOMIFtunqRMByt9ZXNW9QL6Wc9W6hieNoc2J",

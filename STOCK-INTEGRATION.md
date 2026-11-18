@@ -1,6 +1,6 @@
 # Stock list + offers: how it works
 
-Public page `stock.html` mirrors the ludatronix eBay store at 5% below eBay. Customers select
+Public page `stock.html` mirrors the ludatronix eBay store at 3% below eBay (`DISCOUNT` in `worker/wrangler.jsonc`). Customers select
 listings and send an offer. At or above asking they get a QuickBooks invoice on the spot (Zelle on
 the invoice, WhatsApp opens for wire details). Below asking goes to `admin.html` for
 accept / counter / deny. The team gets an email for every invoice and every offer.
