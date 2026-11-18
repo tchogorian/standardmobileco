@@ -1,14 +1,15 @@
 import { HttpError, json, readJson, sitePrice, getSetting, setSetting, nowIso, timingSafeEqual } from './util.js';
+import { currentUser } from './accounts.js';
 
-function toPublic(env, r) {
+function toPublic(env, r, showPrices) {
   return {
     id: r.id,
     title: r.title,
     category: r.category,
     condition: r.condition,
     quantity: r.quantity,
-    ebayPrice: r.ebay_price,
-    sitePrice: sitePrice(env, r.ebay_price),
+    ebayPrice: showPrices ? r.ebay_price : null,
+    sitePrice: showPrices ? sitePrice(env, r.ebay_price) : null,
     isLot: !!r.is_lot,
     status: r.held_by ? 'pending' : 'available',
     image: r.image,
@@ -16,15 +17,19 @@ function toPublic(env, r) {
   };
 }
 
-export async function getStock(env) {
+// Prices are only sent to approved buyers; everyone else sees what is in stock.
+export async function getStock(request, env) {
+  const user = await currentUser(request, env);
+  const showPrices = user?.status === 'approved';
   const { results } = await env.DB.prepare(
     'SELECT * FROM listings WHERE active = 1 ORDER BY held_by IS NOT NULL, seen_at DESC, rowid',
   ).all();
   return json({
     updatedAt: (await getSetting(env, 'stock_updated_at')) || nowIso(),
-    source: 'ebay-mirror',
+    viewer: user ? { name: user.name, status: user.status } : null,
+    pricesVisible: showPrices,
     store: { name: 'ludatronix', url: 'https://www.ebay.com/str/ludatronix' },
-    listings: results.map((r) => toPublic(env, r)),
+    listings: results.map((r) => toPublic(env, r, showPrices)),
   });
 }
 

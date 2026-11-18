@@ -83,7 +83,8 @@ export function emailCustomerCounter(env, offer, message) {
     offer.items.map((i) => `- ${i.title}`).join('\n'),
     '',
     message || '',
-    `Reply to this email or message us on WhatsApp at ${env.WHATSAPP_DISPLAY} to accept, and we'll send your invoice.`,
+    `To accept, log in at ${env.SITE_ORIGIN}/account.html and click Accept. Your invoice is created right away.`,
+    `Questions? Reply to this email or message us on WhatsApp at ${env.WHATSAPP_DISPLAY}.`,
     '',
     'Standard Mobile Company',
   ].join('\n');
@@ -101,6 +102,56 @@ export function emailCustomerDenied(env, offer, message) {
     'Standard Mobile Company',
   ].join('\n');
   return send(env, { to: offer.customer.email, replyTo: env.TEAM_EMAIL, subject: `Your offer ${offer.id}`, text });
+}
+
+export function notifyTeamSignup(env, user) {
+  const text = [
+    `New buyer account waiting for approval: ${user.company} (${user.name}).`,
+    `Approve or reject: ${env.SITE_ORIGIN}/admin.html#buyers`,
+    '',
+    `Email: ${user.email}`,
+    `Phone: ${user.phone}`,
+    user.about ? `About: ${user.about}` : '',
+  ].join('\n');
+  return send(env, { to: env.TEAM_EMAIL, replyTo: user.email, subject: `New buyer to approve: ${user.company}`.slice(0, 200), text });
+}
+
+export function emailUserApproved(env, user) {
+  const text = [
+    `Hi ${user.name},`,
+    '',
+    'Your Standard Mobile Company buyer account is approved. You can now see wholesale prices and send offers:',
+    `${env.SITE_ORIGIN}/stock.html`,
+    '',
+    'Standard Mobile Company',
+  ].join('\n');
+  return send(env, { to: user.email, replyTo: env.TEAM_EMAIL, subject: 'Your buyer account is approved', text });
+}
+
+export function emailUserRejected(env, user) {
+  const text = [
+    `Hi ${user.name},`,
+    '',
+    "Thanks for applying for a Standard Mobile Company buyer account. We weren't able to approve it right now.",
+    `If you think this is a mistake, reply to this email or message us on WhatsApp at ${env.WHATSAPP_DISPLAY}.`,
+    '',
+    'Standard Mobile Company',
+  ].join('\n');
+  return send(env, { to: user.email, replyTo: env.TEAM_EMAIL, subject: 'Your buyer account application', text });
+}
+
+export function emailPasswordReset(env, user, link) {
+  const text = [
+    `Hi ${user.name},`,
+    '',
+    'Use this link to set a new password. It works once and expires in 1 hour:',
+    link,
+    '',
+    "If you didn't ask for this, ignore this email. Your password stays the same.",
+    '',
+    'Standard Mobile Company',
+  ].join('\n');
+  return send(env, { to: user.email, subject: 'Reset your Standard Mobile Company password', text });
 }
 
 export function emailCustomerInvoiceFallback(env, offer, invoice) {

@@ -24,13 +24,24 @@
 <main class="wrap">
   <header class="page-head">
     <span class="eyebrow">Admin</span>
-    <h1>Offers.</h1>
-    <p>Review offers below asking price. Accept to send an invoice, deny, or send a counter (the customer gets an email either way). Invoiced listings show eBay links so you can end them.</p>
+    <h1 id="admin-title">Offers.</h1>
+    <p id="admin-intro">Review offers below asking price. Accept to send an invoice, deny, or send a counter (the customer gets an email either way). Invoiced listings show eBay links so you can end them.</p>
     <div class="admin-note" id="admin-note" hidden></div>
+    <div class="admin-sections">
+      <a class="chip active" id="sec-offers" href="#offers">Offers</a>
+      <a class="chip" id="sec-buyers" href="#buyers">Buyers <span class="c" id="buyers-pending"></span></a>
+    </div>
   </header>
 
-  <div class="tabs" id="tabs" role="tablist" aria-label="Offer status"></div>
-  <div id="offers" aria-live="polite"><div class="loading">Loading offers&hellip;</div></div>
+  <section id="offers-panel">
+    <div class="tabs" id="tabs" role="tablist" aria-label="Offer status"></div>
+    <div id="offers" aria-live="polite"><div class="loading">Loading offers&hellip;</div></div>
+  </section>
+
+  <section id="buyers-panel" hidden>
+    <div class="tabs" id="buyer-tabs" role="tablist" aria-label="Buyer status"></div>
+    <div id="buyers" aria-live="polite"><div class="loading">Loading buyers&hellip;</div></div>
+  </section>
 </main>
 
 <script type="module" src="assets/stock/admin.js"></script>

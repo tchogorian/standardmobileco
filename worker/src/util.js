@@ -59,6 +59,25 @@ export function nowIso() {
   return new Date().toISOString();
 }
 
+export const EMAIL_RE = /^[^\s@<>"']+@[^\s@<>"']+\.[^\s@<>"']{2,}$/;
+
+export async function verifyTurnstile(env, token, ip) {
+  if (!env.TURNSTILE_SECRET) throw new HttpError(503, 'Verification is not configured yet.');
+  if (typeof token !== 'string' || !token || token.length > 2048) throw new HttpError(400, 'Please complete the verification.');
+  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    body: new URLSearchParams({ secret: env.TURNSTILE_SECRET, response: token, remoteip: ip || '' }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!data.success) throw new HttpError(400, 'Verification failed. Please try again.');
+}
+
+export async function rateLimit(binding, key, message) {
+  if (!binding) return;
+  const { success } = await binding.limit({ key: key || 'unknown' });
+  if (!success) throw new HttpError(429, message);
+}
+
 // ---------- crypto ----------
 
 const enc = new TextEncoder();

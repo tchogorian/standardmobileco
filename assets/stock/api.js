@@ -20,17 +20,37 @@ export function whatsappLink(message) {
   return `https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
 
-// { updatedAt, source, store, listings:[{ id, title, category, condition, quantity, ebayPrice,
-//   sitePrice, isLot, status:'available'|'pending', image, ebayUrl }] }
+// { updatedAt, viewer:{ name, status }|null, pricesVisible, store, listings:[{ id, title, category, condition,
+//   quantity, ebayPrice, sitePrice, isLot, status:'available'|'pending', image, ebayUrl }] }
+// ebayPrice and sitePrice are null unless the viewer is an approved buyer.
 export function getStock() {
   return request('GET', '/api/stock');
 }
 
-// input: { listingIds, offerAmount, customer:{ name, company, email, phone }, notes, turnstileToken }
+// input: { listingIds, offerAmount, notes }. Requires an approved buyer session; the invoice uses the account details.
 // -> { result:'invoiced', offerId, invoice } | { result:'received', offerId, askingTotal }
 export function submitOffer(input) {
   return request('POST', '/api/offers', input);
 }
+
+// ---------- buyer accounts ----------
+
+export const getMe = () => request('GET', '/api/account/me');
+export const signup = (input) => request('POST', '/api/account/signup', input);
+export const login = (input) => request('POST', '/api/account/login', input);
+export const logout = () => request('POST', '/api/account/logout', {});
+export const updateProfile = (input) => request('PUT', '/api/account/me', input);
+export const changePassword = (input) => request('POST', '/api/account/password', input);
+export const forgotPassword = (input) => request('POST', '/api/account/forgot', input);
+export const resetPassword = (input) => request('POST', '/api/account/reset', input);
+export const myOffers = () => request('GET', '/api/account/offers');
+export const acceptCounter = (offerId) => request('POST', `/api/account/offers/${encodeURIComponent(offerId)}/accept`, {});
+
+// ---------- admin ----------
+
+export const listUsers = () => request('GET', '/api/admin/users');
+// action: 'approve' | 'reject' | 'disable' | 'enable'
+export const decideUser = (userId, action) => request('POST', `/api/admin/users/${encodeURIComponent(userId)}/${action}`, {});
 
 export function listOffers() {
   return request('GET', '/api/admin/offers');

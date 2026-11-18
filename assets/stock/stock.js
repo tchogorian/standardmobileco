@@ -24,11 +24,32 @@ async function loadStock() {
   }
   for (const id of [...state.selected]) {
     const l = byId(id);
-    if (!l || l.status !== 'available') state.selected.delete(id);
+    if (!l || l.status !== 'available' || !state.stock.pricesVisible) state.selected.delete(id);
   }
+  renderAccess();
   renderSummary();
   renderChips();
   renderList();
+}
+
+function renderAccess() {
+  const { viewer, pricesVisible } = state.stock;
+  $('nav-account').textContent = viewer ? 'My account' : 'Log in';
+  for (const opt of $('sort').options) {
+    if (opt.value.startsWith('price')) opt.disabled = !pricesVisible;
+  }
+  if (!pricesVisible && state.sort.startsWith('price')) { state.sort = 'featured'; $('sort').value = 'featured'; }
+
+  const note = $('access-note');
+  note.hidden = pricesVisible;
+  if (pricesVisible) return;
+  note.replaceChildren(...(viewer
+    ? [h('strong', {}, 'Your account is waiting for approval. '),
+      'We review new buyers within one business day and email you as soon as prices are open to you.']
+    : [h('strong', {}, 'Prices are for approved wholesale buyers. '),
+      'Create a free buyer account to see prices 3% below eBay and send offers. ',
+      h('a', { class: 'btn sm', href: 'account.html#signup' }, 'Create account'), ' ',
+      h('a', { class: 'btn ghost sm', href: 'account.html?next=stock' }, 'Log in')]));
 }
 
 function byId(id) {
@@ -82,9 +103,10 @@ function renderList() {
 
 function renderRow(l) {
   const pending = l.status !== 'available';
+  const canBuy = state.stock.pricesVisible;
   const checked = state.selected.has(l.id);
   const toggle = () => {
-    if (pending) return;
+    if (pending || !canBuy) return;
     if (state.selected.has(l.id)) state.selected.delete(l.id); else state.selected.add(l.id);
     renderList();
   };
@@ -92,11 +114,13 @@ function renderRow(l) {
     ? h('div', { class: 'thumb' }, h('img', { src: l.image, alt: '', loading: 'lazy' }))
     : h('div', { class: 'thumb' }, l.category.split(' ')[0]);
 
-  return h('li', { class: `row${checked ? ' selected' : ''}${pending ? ' pending' : ''}`, onclick: toggle },
-    h('input', {
-      type: 'checkbox', checked, disabled: pending, 'aria-label': `Select ${l.title}`,
-      onclick: (e) => e.stopPropagation(), onchange: toggle,
-    }),
+  return h('li', { class: `row${checked ? ' selected' : ''}${pending ? ' pending' : ''}${canBuy ? '' : ' locked'}`, onclick: toggle },
+    canBuy
+      ? h('input', {
+        type: 'checkbox', checked, disabled: pending, 'aria-label': `Select ${l.title}`,
+        onclick: (e) => e.stopPropagation(), onchange: toggle,
+      })
+      : h('span'),
     thumb,
     h('div', {},
       h('div', { class: 'r-title' }, l.title),
@@ -110,9 +134,11 @@ function renderRow(l) {
       class: 'r-ebay', href: l.ebayUrl, target: '_blank', rel: 'noopener',
       onclick: (e) => e.stopPropagation(),
     }, 'eBay \u2197'),
-    h('div', { class: 'r-price' },
-      h('div', { class: 'p' }, formatMoney(l.sitePrice)),
-      h('div', { class: 'was' }, formatMoney(l.ebayPrice))));
+    canBuy
+      ? h('div', { class: 'r-price' },
+        h('div', { class: 'p' }, formatMoney(l.sitePrice)),
+        h('div', { class: 'was' }, formatMoney(l.ebayPrice)))
+      : h('div', { class: 'r-price' }, h('div', { class: 'locked-price' }, 'Buyers only')));
 }
 
 function selectedItems() {
@@ -179,17 +205,11 @@ function openOfferModal() {
   const err = h('div', { class: 'f-err', role: 'alert' });
   const submit = h('button', { class: 'btn', type: 'submit' }, 'Submit offer');
   const form = h('form', { class: 'offer', novalidate: true },
-    h('div', { class: 'f-row' },
-      h('label', { class: 'fl' }, 'Name *', h('input', { name: 'name', required: true, maxlength: '120', autocomplete: 'name' })),
-      h('label', { class: 'fl' }, 'Company', h('input', { name: 'company', maxlength: '120', autocomplete: 'organization' }))),
-    h('div', { class: 'f-row' },
-      h('label', { class: 'fl' }, 'Email *', h('input', { name: 'email', type: 'email', required: true, maxlength: '200', autocomplete: 'email' })),
-      h('label', { class: 'fl' }, 'Phone / WhatsApp *', h('input', { name: 'phone', type: 'tel', required: true, maxlength: '40', autocomplete: 'tel' }))),
     h('label', { class: 'fl' }, `Your offer (asking ${formatMoney(asking)}) *`, offerInput),
     hint,
     h('label', { class: 'fl' }, 'Notes', h('textarea', { name: 'notes', maxlength: '1000', placeholder: 'Shipping destination, payment timing, questions' })),
-    h('div', { class: 'hp', 'aria-hidden': 'true' }, h('input', { name: 'website', tabindex: '-1', autocomplete: 'off' })),
-    h('div', { class: 'turnstile-slot', id: 'turnstile-slot' }),
+    h('p', { class: 'hint' }, `The invoice goes to the details on your account, ${state.stock.viewer.name}. `,
+      h('a', { class: 'inline-link', href: 'account.html' }, 'Edit details')),
     err,
     h('div', { class: 'actions' },
       h('button', { class: 'btn ghost', type: 'button', onclick: closeModal }, 'Cancel'),
@@ -205,63 +225,14 @@ function openOfferModal() {
       h('li', { class: 'tot' }, h('span', {}, 'Asking total'), h('span', {}, formatMoney(asking)))),
     form,
   ]);
-  renderTurnstile($('turnstile-slot')).catch(() => {
-    err.textContent = 'Could not load the verification check. Refresh and try again.';
-  });
-}
-
-// ---------- Turnstile ----------
-
-let turnstileLoad = null;
-const captcha = { widgetId: null, token: null };
-
-function loadTurnstile() {
-  turnstileLoad ||= new Promise((resolve, reject) => {
-    const s = document.createElement('script');
-    s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
-    s.async = true;
-    s.onload = () => resolve(window.turnstile);
-    s.onerror = () => { turnstileLoad = null; reject(new Error('turnstile')); };
-    document.head.append(s);
-  });
-  return turnstileLoad;
-}
-
-async function renderTurnstile(slot) {
-  const turnstile = await loadTurnstile();
-  if (!slot.isConnected) return;
-  captcha.token = null;
-  captcha.widgetId = turnstile.render(slot, {
-    sitekey: CONFIG.TURNSTILE_SITE_KEY,
-    callback: (t) => { captcha.token = t; },
-    'expired-callback': () => { captcha.token = null; },
-    'error-callback': () => { captcha.token = null; },
-  });
-}
-
-function resetTurnstile() {
-  captcha.token = null;
-  if (window.turnstile && captcha.widgetId != null) window.turnstile.reset(captcha.widgetId);
 }
 
 async function onSubmitOffer(e, form, items, asking, submit, err) {
   e.preventDefault();
   err.textContent = '';
   const f = new FormData(form);
-  const customer = {
-    name: String(f.get('name') || '').trim(),
-    company: String(f.get('company') || '').trim(),
-    email: String(f.get('email') || '').trim(),
-    phone: String(f.get('phone') || '').trim(),
-  };
   const offerAmount = Math.round(Number(f.get('offer')) * 100) / 100;
-
-  if (String(f.get('website') || '')) return;
-  if (!customer.name) return void (err.textContent = 'Enter your name.');
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email)) return void (err.textContent = 'Enter a valid email.');
-  if (customer.phone.replace(/\D/g, '').length < 7) return void (err.textContent = 'Enter a phone or WhatsApp number.');
   if (!(offerAmount > 0)) return void (err.textContent = 'Enter your offer.');
-  if (!captcha.token) return void (err.textContent = 'Please wait for the verification check to finish.');
 
   // Browsers only allow pop-ups during the click itself, so reserve the WhatsApp tab now.
   const waTab = offerAmount >= asking ? window.open('', '_blank') : null;
@@ -273,9 +244,7 @@ async function onSubmitOffer(e, form, items, asking, submit, err) {
     const res = await submitOffer({
       listingIds: items.map((l) => l.id),
       offerAmount,
-      customer,
       notes: String(f.get('notes') || '').trim(),
-      turnstileToken: captcha.token,
     });
     state.selected.clear();
     if (res.result === 'invoiced') {
@@ -284,12 +253,11 @@ async function onSubmitOffer(e, form, items, asking, submit, err) {
       showInvoice(res.invoice, link);
     } else {
       if (waTab) waTab.close();
-      showReceived(res, customer);
+      showReceived(res);
     }
     loadStock();
   } catch (ex) {
     if (waTab) waTab.close();
-    resetTurnstile();
     err.textContent = ex.message || 'Something went wrong. Try again.';
     submit.disabled = false;
     submit.textContent = 'Submit offer';
@@ -301,13 +269,15 @@ function waMessage(inv) {
   return `Hi Standard Mobile, I just requested invoice ${inv.number} for ${formatMoney(inv.total)} (listings ${ids}). Please send wire transfer details.`;
 }
 
-function showReceived(res, customer) {
+function showReceived(res) {
   openModal([
     h('div', { class: 'done' },
       h('div', { class: 'ck' }, '\u2713'),
       h('h2', {}, 'Offer received'),
-      h('p', { class: 'sub' }, `Reference ${res.offerId}. Our team reviews offers below asking and replies to ${customer.email}, usually within one business day.`),
-      h('div', { class: 'actions' }, h('button', { class: 'btn', type: 'button', onclick: closeModal }, 'Done'))),
+      h('p', { class: 'sub' }, `Reference ${res.offerId}. Our team reviews offers below asking, usually within one business day. We'll email you, and you can follow it in your account.`),
+      h('div', { class: 'actions' },
+        h('a', { class: 'btn ghost', href: 'account.html' }, 'My offers'),
+        h('button', { class: 'btn', type: 'button', onclick: closeModal }, 'Done'))),
   ]);
 }
 

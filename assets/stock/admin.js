@@ -1,4 +1,4 @@
-import { listOffers, decideOffer, qboStatus, formatMoney } from './api.js';
+import { listOffers, decideOffer, qboStatus, listUsers, decideUser, formatMoney } from './api.js';
 import { h, formatDateTime } from './dom.js';
 
 const TABS = [
@@ -8,11 +8,94 @@ const TABS = [
   ['denied', 'Denied'],
   ['all', 'All'],
 ];
-const state = { offers: [], tab: 'pending' };
+const BUYER_TABS = [
+  ['pending', 'Waiting for approval'],
+  ['approved', 'Approved'],
+  ['rejected', 'Rejected'],
+  ['disabled', 'Disabled'],
+  ['all', 'All'],
+];
+const INTRO = {
+  offers: ['Offers.', 'Review offers below asking price. Accept to send an invoice, deny, or send a counter (the customer gets an email either way). Invoiced listings show eBay links so you can end them.'],
+  buyers: ['Buyers.', 'New buyer accounts wait here until you approve them. Only approved buyers see prices and can send offers. Disabling a buyer logs them out right away.'],
+};
+const state = { offers: [], tab: 'pending', users: [], buyerTab: 'pending' };
 const $ = (id) => document.getElementById(id);
 
+window.addEventListener('hashchange', showSection);
+showSection();
 load();
+loadUsers();
 loadQbo();
+
+function showSection() {
+  const section = location.hash === '#buyers' ? 'buyers' : 'offers';
+  $('offers-panel').hidden = section !== 'offers';
+  $('buyers-panel').hidden = section !== 'buyers';
+  $('sec-offers').classList.toggle('active', section === 'offers');
+  $('sec-buyers').classList.toggle('active', section === 'buyers');
+  [$('admin-title').textContent, $('admin-intro').textContent] = INTRO[section];
+}
+
+async function loadUsers() {
+  try {
+    state.users = await listUsers();
+  } catch (err) {
+    $('buyers').replaceChildren(h('div', { class: 'load-err' }, err.message || 'Could not load buyers.'));
+    return;
+  }
+  renderUsers();
+}
+
+function renderUsers() {
+  const count = (k) => (k === 'all' ? state.users.length : state.users.filter((u) => u.status === k).length);
+  $('buyers-pending').textContent = count('pending') || '';
+  $('buyer-tabs').replaceChildren(...BUYER_TABS.map(([key, label]) => h('button', {
+    class: `chip${state.buyerTab === key ? ' active' : ''}`,
+    type: 'button',
+    role: 'tab',
+    'aria-selected': state.buyerTab === key ? 'true' : 'false',
+    onclick: () => { state.buyerTab = key; renderUsers(); },
+  }, label, h('span', { class: 'c' }, count(key)))));
+  const rows = state.buyerTab === 'all' ? state.users : state.users.filter((u) => u.status === state.buyerTab);
+  $('buyers').replaceChildren(...(rows.length ? rows.map(renderUser) : [h('div', { class: 'empty' }, 'Nothing here.')]));
+}
+
+function renderUser(u) {
+  const err = h('span', { class: 'f-err', role: 'alert' });
+  const act = async (action, question) => {
+    if (question && !confirm(question)) return;
+    err.textContent = '';
+    card.querySelectorAll('button').forEach((el) => { el.disabled = true; });
+    try {
+      await decideUser(u.id, action);
+      await loadUsers();
+    } catch (ex) {
+      err.textContent = ex.message || 'Action failed.';
+      card.querySelectorAll('button').forEach((el) => { el.disabled = false; });
+    }
+  };
+  const btn = (label, action, cls = 'btn sm', question) =>
+    h('button', { class: cls, type: 'button', onclick: () => act(action, question) }, label);
+
+  const card = h('article', { class: 'offer-card' },
+    h('div', { class: 'oc-top' },
+      h('div', {},
+        h('div', { class: 'oc-who' }, u.company, ` \u00b7 ${u.name}`,
+          h('span', { class: 'c' }, `${u.email} \u00b7 ${u.phone} \u00b7 signed up ${formatDateTime(u.createdAt)} \u00b7 ${u.offerCount} offer${u.offerCount === 1 ? '' : 's'}`)),
+        h('span', { class: `status ${u.status}` }, u.status)),
+      u.reviewedBy ? h('div', { class: 'oc-who' }, h('span', { class: 'c' }, `${u.status} by ${u.reviewedBy}, ${formatDateTime(u.reviewedAt)}`)) : null),
+    u.about ? h('div', { class: 'buyer-about' }, u.about) : null,
+    h('div', { class: 'oc-actions' },
+      u.status === 'pending' ? btn('Approve', 'approve') : null,
+      u.status === 'pending' ? btn('Reject', 'reject', 'btn danger sm', `Reject ${u.company}? They get an email and cannot log in.`) : null,
+      u.status === 'rejected' ? btn('Approve anyway', 'approve') : null,
+      u.status === 'approved' || u.status === 'pending'
+        ? btn('Disable', 'disable', 'btn ghost sm', `Disable ${u.company}? They are logged out and cannot log in.`) : null,
+      u.status === 'disabled' ? btn('Re-enable', 'enable') : null,
+      err));
+  return card;
+}
 
 async function loadQbo() {
   const note = $('admin-note');

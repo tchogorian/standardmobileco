@@ -161,7 +161,30 @@ table.inv tfoot tr.total td{font-size:1.05rem;padding-top:.8rem}
 .qbo-error{margin-top:12px;background:#fbeaea;border-radius:12px;padding:10px 14px;font-size:.82rem;color:#8a2a1f;word-break:break-word}
 .remove-ebay{margin-top:12px;background:#e7f6ec;border-radius:12px;padding:10px 14px;font-size:.82rem;color:#185c35}
 
+/* buyer access + accounts */
+.access-note{background:#eef4ff;border:1px solid #cfe0fb;color:#1d3f73;border-radius:12px;padding:12px 16px;font-size:.86rem;margin-top:18px;max-width:760px}
+.access-note .btn{margin-top:4px}
+.row.locked{cursor:default}
+.locked-price{font-size:.74rem;font-weight:600;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.inline-link{color:var(--acc);font-weight:600}
+.auth{max-width:520px;margin:0 auto;padding:56px 0 20px}
+.auth h1{font-size:clamp(1.8rem,3.5vw,2.4rem);font-weight:800;letter-spacing:-.035em;line-height:1.1;margin-bottom:.5rem}
+.auth .sub{color:var(--muted);font-weight:300;margin-bottom:1.4rem}
+.auth-links{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:1.2rem;font-size:.86rem}
+.auth-links a{color:var(--acc);font-weight:500}
+.actions.start{justify-content:flex-start}
+.acct-section{margin-top:8px}
+.acct-section h2,.acct-card h2{font-size:1.2rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.4rem}
+.acct-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:36px 0 24px}
+.acct-card{border:1px solid var(--line);border-radius:18px;padding:22px}
+.empty.small{padding:24px 0;text-align:left}
+.buyer-about{font-size:.84rem;color:var(--ink);margin-top:10px;white-space:pre-wrap}
+.status.approved{background:#e7f6ec;color:var(--ok)}
+.status.rejected,.status.disabled{background:#fbeaea;color:var(--bad)}
+.admin-sections{display:flex;gap:8px;margin-top:18px}
+
 @media(max-width:760px){
+  .acct-grid{grid-template-columns:1fr}
   nav{height:62px}
   .nav-logo img{height:36px}
   .summary{grid-template-columns:repeat(2,1fr)}
