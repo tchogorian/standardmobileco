@@ -56,10 +56,22 @@ try {
     throw "Cursor CLI is not installed at $agentCmd"
   }
 
-  $status = & $agentCmd status 2>&1 | Out-String
+  # The CLI swaps its own launcher when it self-updates; a call during the swap fails once, so retry.
+  $status = ''
+  for ($try = 1; $try -le 4; $try++) {
+    $ErrorActionPreference = 'Continue'
+    $status = & $agentCmd status 2>&1 | Out-String
+    $ErrorActionPreference = 'Stop'
+    if ($status -match 'Logged in' -or $status -match 'Not logged in') { break }
+    Write-Log "CLI status attempt $try failed: $($status.Trim())"
+    Start-Sleep -Seconds 30
+  }
   Write-Log ($status.Trim())
   if ($status -match 'Not logged in') {
     throw 'Cursor CLI is not logged in. Run cursor-agent login once in this Windows account.'
+  }
+  if ($status -notmatch 'Logged in') {
+    throw 'Cursor CLI did not respond.'
   }
 
   Write-Log 'Updating main'
@@ -106,10 +118,13 @@ try {
   $prompt = "Read and follow scripts/logs/today-prompt.md exactly. Publish exactly one article for $displayDate. Do not run git."
 
   Write-Log 'Writing the article'
+  $ErrorActionPreference = 'Continue'
   & $agentCmd -p --trust --workspace $repo --output-format text $prompt 2>&1 |
     ForEach-Object { Write-Log ([string]$_) }
-  if ($null -ne $LASTEXITCODE -and $LASTEXITCODE -ne 0) {
-    throw "Article agent exited $LASTEXITCODE"
+  $agentExit = $LASTEXITCODE
+  $ErrorActionPreference = 'Stop'
+  if ($null -ne $agentExit -and $agentExit -ne 0) {
+    throw "Article agent exited $agentExit"
   }
 
   $after = @(Get-ChildItem -LiteralPath (Join-Path $repo 'articles') -Filter '*.html' | Select-Object -ExpandProperty Name)
