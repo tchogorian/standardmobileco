@@ -1,4 +1,4 @@
-import { listOffers, decideOffer, qboStatus, listUsers, decideUser, formatMoney } from './api.js';
+import { listOffers, decideOffer, qboStatus, listUsers, decideUser, ebayStatus, ebaySync, formatMoney } from './api.js';
 import { h, formatDateTime } from './dom.js';
 
 const TABS = [
@@ -27,6 +27,49 @@ showSection();
 load();
 loadUsers();
 loadQbo();
+loadEbay();
+
+async function loadEbay() {
+  const note = $('ebay-note');
+  let s;
+  try {
+    s = await ebayStatus();
+  } catch {
+    return;
+  }
+  note.hidden = false;
+  const last = s.lastSync;
+  const healthy = s.connected && last && last.ok;
+  note.classList.toggle('ok', !!healthy);
+  if (!s.configured) {
+    note.replaceChildren('eBay API is not set up yet. Stock still comes from the office PC copy every 2 hours.');
+    return;
+  }
+  const err = h('span', { class: 'f-err' });
+  const sync = h('button', {
+    class: 'btn ghost sm', type: 'button',
+    onclick: async () => {
+      sync.disabled = true;
+      err.textContent = '';
+      try {
+        await ebaySync();
+      } catch (ex) {
+        if (!/Refusing to replace/.test(ex.message) || !confirm(`${ex.message}\n\nApply it anyway?`)) err.textContent = ex.message;
+        else await ebaySync(true).catch((e2) => { err.textContent = e2.message; });
+      }
+      loadEbay();
+    },
+  }, 'Sync now');
+  const connect = h('a', { class: 'btn ghost sm', href: '/api/admin/ebay/connect' }, s.connected ? 'Reconnect' : 'Connect eBay');
+  if (!s.connected) {
+    note.replaceChildren('eBay is not connected. Click Connect eBay and sign in as ludatronix. ', connect);
+    return;
+  }
+  const lastText = !last ? 'No sync yet.'
+    : last.ok ? `Last sync ${formatDateTime(last.at)}: ${last.active} listings, ${last.changed} changed, ${last.deactivated} removed.`
+      : `Last sync FAILED ${formatDateTime(last.at)}: ${last.error}`;
+  note.replaceChildren(`eBay connected as ${s.user}. Stock syncs every 5 minutes and is re-checked before every invoice. ${lastText} `, sync, connect, err);
+}
 
 function showSection() {
   const section = location.hash === '#buyers' ? 'buyers' : 'offers';

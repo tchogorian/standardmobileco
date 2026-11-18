@@ -48,6 +48,8 @@ export const acceptCounter = (offerId) => request('POST', `/api/account/offers/$
 
 // ---------- admin ----------
 
+export const ebayStatus = () => request('GET', '/api/admin/ebay/status');
+export const ebaySync = (force = false) => request('POST', `/api/admin/ebay/sync${force ? '?force=1' : ''}`, {});
 export const listUsers = () => request('GET', '/api/admin/users');
 // action: 'approve' | 'reject' | 'disable' | 'enable'
 export const decideUser = (userId, action) => request('POST', `/api/admin/users/${encodeURIComponent(userId)}/${action}`, {});

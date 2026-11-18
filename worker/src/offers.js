@@ -3,9 +3,11 @@ import { loadListings } from './stock.js';
 import { createInvoice, invoicePdf } from './qbo.js';
 import { notifyTeamInvoiced, notifyTeamOffer, emailCustomerInvoiceFallback } from './email.js';
 import { requireUser } from './accounts.js';
+import { ensureFresh } from './ebay.js';
 
-// Marks every listing as held by this offer, or none of them.
+// Marks every listing as held by this offer, or none of them. Re-checks eBay first when it is connected.
 export async function lockListings(env, offerId, ids) {
+  await ensureFresh(env);
   const placeholders = ids.map(() => '?').join(',');
   const res = await env.DB.prepare(
     `UPDATE listings SET held_by = ? WHERE active = 1 AND held_by IS NULL AND id IN (${placeholders})`,
@@ -88,6 +90,7 @@ export async function submitOffer(request, env, ctx) {
   const notes = str(body.notes, { max: 1000, name: 'Notes' });
   const offerAmount = money(body.offerAmount, 'Offer');
 
+  await ensureFresh(env);
   const rows = await loadListings(env, ids);
   if (rows.length !== ids.length) throw new HttpError(409, 'One or more listings are no longer available. Refresh and try again.');
   if (rows.some((r) => r.held_by)) throw new HttpError(409, 'One or more listings are already on hold. Refresh and try again.');

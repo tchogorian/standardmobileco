@@ -5,6 +5,7 @@ import { submitOffer, getOffer, myOffers, acceptCounter } from './offers.js';
 import { listOffers, decideOffer, listUsers, decideUser } from './admin.js';
 import * as accounts from './accounts.js';
 import * as qbo from './qbo.js';
+import * as ebay from './ebay.js';
 
 function redirect(location) {
   return new Response(null, { status: 302, headers: { Location: location, 'Cache-Control': 'no-store' } });
@@ -71,6 +72,17 @@ async function route(request, env, ctx) {
     m = path.match(/^\/api\/admin\/users\/(U-[A-Z0-9]{10})\/(approve|reject|disable|enable)$/);
     if (m && method === 'POST') return decideUser(request, env, ctx, admin, m[1], m[2]);
 
+    if (path === '/api/admin/ebay/status' && method === 'GET') return json(await ebay.status(env));
+    if (path === '/api/admin/ebay/connect' && method === 'GET') return redirect(await ebay.buildConnectUrl(env));
+    if (path === '/api/admin/ebay/callback' && method === 'GET') {
+      await ebay.handleCallback(env, url);
+      ctx.waitUntil(ebay.scheduledSync(env));
+      return redirect('/admin.html?ebay=connected');
+    }
+    if (path === '/api/admin/ebay/sync' && method === 'POST') {
+      return json(await ebay.syncFromEbay(env, { force: url.searchParams.get('force') === '1' }));
+    }
+
     if (path === '/api/admin/qbo/status' && method === 'GET') return json(await qbo.status(env));
     if (path === '/api/admin/qbo/connect' && method === 'GET') return redirect(await qbo.buildConnectUrl(env));
     if (path === '/api/admin/qbo/callback' && method === 'GET') {
@@ -88,9 +100,13 @@ export default {
       return await route(request, env, ctx);
     } catch (err) {
       if (err instanceof HttpError) return json({ error: err.message }, err.status);
-      if (err instanceof qbo.QboReauthError) return json({ error: err.message }, 503);
+      if (err instanceof qbo.QboReauthError || err instanceof ebay.EbayReauthError) return json({ error: err.message }, 503);
       console.error('unhandled', err.stack || err.message);
       return json({ error: 'Something went wrong. Please try again.' }, 500);
     }
+  },
+
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(ebay.scheduledSync(env));
   },
 };

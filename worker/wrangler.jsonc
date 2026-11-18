@@ -16,6 +16,7 @@
     { "name": "AUTH_LIMIT", "namespace_id": "1002", "simple": { "limit": 10, "period": 60 } }
   ],
   "observability": { "enabled": true },
+  "triggers": { "crons": ["*/5 * * * *"] },
   "vars": {
     "SITE_ORIGIN": "https://standardmobileco.com",
     "TEAM_EMAIL": "smcom1000@gmail.com",
@@ -27,7 +28,10 @@
     "QBO_ENV": "sandbox",
     "QBO_CLIENT_ID": "AByXATBXP9CVUaqOMIFtunqRMByt9ZXNW9QL6Wc9W6hieNoc2J",
     "ACCESS_TEAM_DOMAIN": "",
-    "ACCESS_AUD": ""
+    "ACCESS_AUD": "",
+    "EBAY_CLIENT_ID": "",
+    "EBAY_RUNAME": "",
+    "EBAY_SELLER": "ludatronix"
   }
-  // Secrets (wrangler secret put): QBO_CLIENT_SECRET, TOKEN_KEY, LINK_SECRET, SYNC_TOKEN, TURNSTILE_SECRET
+  // Secrets (wrangler secret put): QBO_CLIENT_SECRET, EBAY_CLIENT_SECRET, TOKEN_KEY, LINK_SECRET, SYNC_TOKEN, TURNSTILE_SECRET
 }
