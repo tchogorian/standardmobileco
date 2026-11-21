@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://standardmobileco.com/insights.html</loc>
-    <lastmod>2026-11-20</lastmod>
+    <lastmod>2026-11-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -28,6 +28,12 @@
   </url>
 
   <!-- Articles -->
+  <url>
+    <loc>https://standardmobileco.com/articles/chain-of-custody-file-hardware-buyer-should-demand.html</loc>
+    <lastmod>2026-11-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
   <url>
     <loc>https://standardmobileco.com/articles/rising-rack-power-retiring-servers-early.html</loc>
     <lastmod>2026-11-20</lastmod>
