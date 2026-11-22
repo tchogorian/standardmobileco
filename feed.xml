@@ -5,8 +5,15 @@
     <link>https://standardmobileco.com/insights.html</link>
     <description>Research on IT asset disposition, refurbished electronics, and the secondary hardware market.</description>
     <language>en-us</language>
-    <lastBuildDate>Sat, 21 Nov 2026 08:17:30 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 22 Nov 2026 08:17:19 GMT</lastBuildDate>
     <!-- items -->
+    <item>
+      <title>Windows 11 Hardware Rules and the PCs That Cannot Follow</title>
+      <link>https://standardmobileco.com/articles/windows-11-hardware-rules-pcs-that-cannot-follow.html</link>
+      <guid>https://standardmobileco.com/articles/windows-11-hardware-rules-pcs-that-cannot-follow.html</guid>
+      <pubDate>Sun, 22 Nov 2026 08:17:19 GMT</pubDate>
+      <description>Windows 11 requires TPM 2.0, Secure Boot, and a supported CPU. Machines that fail those checks leave managed Windows fleets and land in narrower wholesale channels.</description>
+    </item>
     <item>
       <title>The Chain-of-Custody File a Hardware Buyer Should Demand</title>
       <link>https://standardmobileco.com/articles/chain-of-custody-file-hardware-buyer-should-demand.html</link>
