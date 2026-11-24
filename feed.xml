@@ -5,8 +5,15 @@
     <link>https://standardmobileco.com/insights.html</link>
     <description>Research on IT asset disposition, refurbished electronics, and the secondary hardware market.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 23 Nov 2026 08:16:55 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 24 Nov 2026 08:17:53 GMT</lastBuildDate>
     <!-- items -->
+    <item>
+      <title>Workstation GPUs Versus Data-Center GPUs on the Used Market</title>
+      <link>https://standardmobileco.com/articles/workstation-gpus-vs-data-center-gpus-used-market.html</link>
+      <guid>https://standardmobileco.com/articles/workstation-gpus-vs-data-center-gpus-used-market.html</guid>
+      <pubDate>Tue, 24 Nov 2026 08:17:53 GMT</pubDate>
+      <description>Used workstation GPUs and data-center GPUs clear through different buyers, form factors, and power constraints. How wholesale bids split between RTX professional cards and A100/H100-class accelerators.</description>
+    </item>
     <item>
       <title>What Changes When Used Equipment Crosses a Border With Data Still on It</title>
       <link>https://standardmobileco.com/articles/used-equipment-crossing-border-with-data-still-on-it.html</link>
