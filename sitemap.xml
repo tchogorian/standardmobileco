@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://standardmobileco.com/insights.html</loc>
-    <lastmod>2026-11-24</lastmod>
+    <lastmod>2026-11-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -28,6 +28,12 @@
   </url>
 
   <!-- Articles -->
+  <url>
+    <loc>https://standardmobileco.com/articles/fourth-quarter-carrier-promotions-january-wholesale-glut.html</loc>
+    <lastmod>2026-11-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
   <url>
     <loc>https://standardmobileco.com/articles/workstation-gpus-vs-data-center-gpus-used-market.html</loc>
     <lastmod>2026-11-24</lastmod>
