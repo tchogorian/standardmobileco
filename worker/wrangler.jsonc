@@ -27,8 +27,8 @@
     "INVOICE_DUE_DAYS": "3",
     "QBO_ENV": "sandbox",
     "QBO_CLIENT_ID": "AByXATBXP9CVUaqOMIFtunqRMByt9ZXNW9QL6Wc9W6hieNoc2J",
-    "ACCESS_TEAM_DOMAIN": "",
-    "ACCESS_AUD": "",
+    "ACCESS_TEAM_DOMAIN": "bluechia.cloudflareaccess.com",
+    "ACCESS_AUD": "e269084068ea3cbabb9c7b94061f8a52895582c6c8a8a6567e0a83b33bf14671",
     "EBAY_CLIENT_ID": "",
     "EBAY_RUNAME": "",
     "EBAY_SELLER": "ludatronix"
